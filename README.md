@@ -1,1 +1,3 @@
-# kinto_webpush_docs
+# WebPush Channels Broadcast
+
+Broadcast notification to multiple WebPush subscriptions.
