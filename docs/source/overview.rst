@@ -7,7 +7,7 @@ What is WebPush?
 WebPush is the web standard to allow a server to notify its client
 that something changed.
 
-In your webapp you ask the browser for a subscription, you stard a
+In your webapp you ask the browser for a subscription, you start a
 service-worker that will handle notifications and you send your
 subscription to the server so that it can send you notifications.
 
