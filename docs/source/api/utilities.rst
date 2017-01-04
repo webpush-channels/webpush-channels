@@ -44,7 +44,7 @@ The returned value is a JSON mapping containing:
 
 .. note::
 
-    The ``project_version`` contains the source code version, whereas the ``http_api_version`` contains the exposed :term:`HTTP API` version.
+    The ``project_version`` contains the source code version, whereas the ``http_api_version`` contains the exposed HTTP API version.
 
     The source code of the service can suffer changes and have its *project version*
     incremented, without impacting the publicly exposed HTTP API.

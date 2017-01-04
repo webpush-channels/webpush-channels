@@ -23,13 +23,3 @@ If the posted values are invalid (e.g. *field value is not an integer*)
 an error response is returned with |status-400|.
 
 See :ref:`details on error responses <error-responses>`.
-
-
-Permissions
------------
-
-In the JSON request payloads, an optional ``permissions`` attribute can be provided.
-
-The :ref:`current user id <api-current-userid>` **is always added** among the ``write`` principals.
-
-See :ref:`api-permissions-payload`.

@@ -6,7 +6,7 @@ Deprecation
 
 A track of the client version will be kept to know after which date each old version can be shutdown.
 
-The date of the end of support is provided in the API root URL (e.g. ``/v0``)
+The date of the end of support is provided in the API root URL (e.g. ``/v1``)
 
 Using the ``Alert`` response header, the server can communicate any potential warning
 messages, information, or other alerts.
@@ -21,4 +21,4 @@ A |status-410| error response can be returned if the
 client version is too old, or the service had been remplaced with
 a new and better service using a new API version.
 
-See details in :ref:`configuration` to activate deprecation.
+See details in configuration to activate deprecation.

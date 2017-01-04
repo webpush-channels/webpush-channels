@@ -22,7 +22,7 @@ Depending on the authentication methods enabled in configuration,
 the HTTP method to authenticate requests may differ.
 
 WebPush Channels can rely on a third-party called «`Identity provider <https://en.wikipedia.org/wiki/Identity_provider>`_»
-to authenticate the request and assign a :term:`user id`.
+to authenticate the request and assign a user id.
 
 There are many identity providers solutions in the wild. The most common are OAuth,
 JWT, SAML, x509, Hawk sessions...
@@ -33,12 +33,11 @@ Multiple policies
 -----------------
 
 It is possible to enable several authentication methods.
-See :ref:`configuration <configuration-authentication>`.
 
 In the current implementation, when multiple policies are configured,
 the first one in the list that succeeds is picked.
 
-:term:`User identifiers` are prefixed with the policy name being used.
+User identifiers are prefixed with the policy name being used.
 
 OAuth Bearer token
 ==================
@@ -60,11 +59,11 @@ The policy will verify the provided *OAuth2 bearer token* on a remote server.
 Portier
 -------
 
-In order to enable authentication with :term:`Portier`, install and
+In order to enable authentication with Portier, install and
 configure :github:`Kinto/kinto-portier`.
 
 Firefox Accounts
 ----------------
 
-In order to enable authentication with :term:`Firefox Accounts`, install and
+In order to enable authentication with Firefox Accounts, install and
 configure :github:`mozilla-services/kinto-fxa`.
