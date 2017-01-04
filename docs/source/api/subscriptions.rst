@@ -27,8 +27,8 @@ requesting a Push subscription on the browser.
 
 .. _subscriptions-post:
 
-Uploading a subscription
-========================
+Add a new user subscription
+===========================
 
 .. http:post:: /subscriptions
 
@@ -91,6 +91,8 @@ Uploading a subscription
 .. include:: _status-post-list.rst
 
 
+.. _subscriptions-get:
+
 Retrieving user's subscriptions
 ===============================
 
@@ -145,7 +147,7 @@ Retrieving user's subscriptions
 
 .. _subscriptions-delete:
 
-Delete stored subscriptions
+Delete user's subscriptions
 ===========================
 
 .. http:delete:: /subscriptions

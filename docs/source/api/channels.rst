@@ -12,6 +12,8 @@ exists.
 The service configuration as well as the permission backend define a
 list of users that can publish on given channels.
 
+.. _channel-registration-put:
+
 Register to a channel
 =====================
 
@@ -47,6 +49,8 @@ Register to a channel
         Date: Thu, 18 Jun 2015 17:02:23 GMT
         Server: waitress
 
+.. _channel-registration-delete:
+
 Unsubscribing from a channel
 ============================
 
@@ -81,6 +85,8 @@ Unsubscribing from a channel
         Access-Control-Expose-Headers: Backoff, Retry-After, Alert
         Date: Thu, 18 Jun 2015 17:02:23 GMT
         Server: waitress
+
+.. _channel-get:
 
 Getting channels informations
 =============================
@@ -131,6 +137,7 @@ Getting channels informations
   channel.
 - **push** contains the number of push that were sent to the channel.
 
+.. _channel-post:
 
 Broadcasting a push notification
 ================================
