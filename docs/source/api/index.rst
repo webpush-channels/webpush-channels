@@ -15,7 +15,6 @@ Full detailed API documentation:
    channels
    subscriptions
    utilities
-   timestamps
    backoff
    errors
    deprecation
