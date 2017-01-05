@@ -14,7 +14,7 @@ CHANGELOG = read_file("CHANGELOG.rst")
 
 REQUIREMENTS = [
     'waitress',
-    'kinto.core',
+    'kinto[postgresql]',
     'requests'
 ]
 
