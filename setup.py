@@ -3,12 +3,14 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'README.rst')) as f:
-    README = f.read()
+def read_file(filename):
+    """Open a related file and return its content."""
+    with codecs.open(os.path.join(here, filename), encoding='utf-8') as f:
+        content = f.read()
+    return content
 
-with open(os.path.join(here, 'CHANGELOG.rst')) as f:
-    CHANGELOG = f.read()
-
+README = read_file("README.rst")
+CHANGELOG = read_file("CHANGELOG.rst")
 
 REQUIREMENTS = [
     'waitress',
