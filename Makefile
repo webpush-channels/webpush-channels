@@ -39,9 +39,9 @@ help:
 .PHONY: help
 
 # Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+# "make mode" option.  $(0) is meant as a shortcut for $(SPHINXOPTS).
 docs: Makefile install-docs
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(0)
 
 install-docs: $(DOC_STAMP)
 $(DOC_STAMP): $(PYTHON) docs/requirements.txt
@@ -76,7 +76,7 @@ COMMIT := $(shell git log --pretty=format:'%H' -n 1)
 version-file:
 	echo '{"name":"$(NAME)","version":"$(VERSION)","source":"$(SOURCE)","commit":"$(COMMIT)"}' > version.json
 
-serve: install-dev $(SERVER_CONFIG) migrate version-file
+serve: install-dev $(SERVER_CONFIG) version-file
 	$(VENV)/bin/pserve $(SERVER_CONFIG) --reload
 
 tests-once: install-dev version-file

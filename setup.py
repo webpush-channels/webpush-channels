@@ -1,5 +1,6 @@
 import os
 from setuptools import setup, find_packages
+import codecs
 
 here = os.path.abspath(os.path.dirname(__file__))
 

@@ -1,3 +1,5 @@
 docs/build/
 .venv/
 *.egg-info/
+*.pyc
+version.json
