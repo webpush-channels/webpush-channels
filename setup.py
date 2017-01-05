@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'README.md')) as f:
+with open(os.path.join(here, 'README.rst')) as f:
     README = f.read()
 
 with open(os.path.join(here, 'CHANGELOG.rst')) as f:
@@ -18,7 +18,7 @@ REQUIREMENTS = [
 
 ENTRY_POINTS = {
     'paste.app_factory': [
-        'main = webpush-channels:main',
+        'main = webpush_channels:main',
     ]}
 
 setup(name='webpush-channels',
