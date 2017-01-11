@@ -1,4 +1,3 @@
-include *.rst Makefile
+include *.rst LICENSE Makefile
 include dev-requirements.txt
-
 
