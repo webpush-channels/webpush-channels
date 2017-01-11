@@ -1,10 +1,11 @@
 from kinto.core import testing
-from webpush_channels import DEFAULT_SETTINGS
+from webpush_channels import DEFAULT_SETTINGS, main
+
 
 class BaseWebTest(testing.BaseWebTest):
 
     api_prefix = "v1"
-    entry_point = None
+    entry_point = main
 
     def __init__(self, *args, **kwargs):
         super(BaseWebTest, self).__init__(*args, **kwargs)
@@ -16,4 +17,3 @@ class BaseWebTest(testing.BaseWebTest):
             settings.update(extras)
         settings = super(BaseWebTest, self).get_app_settings(extras=settings)
         return settings
-
