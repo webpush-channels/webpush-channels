@@ -3,7 +3,6 @@ from kinto.core.testing import unittest
 from .support import BaseWebTest
 
 class HelloViewTest(BaseWebTest, unittest.TestCase):
-
 	def test_returns_info_about_url_and_version(self):
 		response = self.app.get('/')
         self.assertEqual(response.json['version'], VERSION)
