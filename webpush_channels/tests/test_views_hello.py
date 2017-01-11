@@ -12,5 +12,3 @@ class HelloViewTest(BaseWebTest, unittest.TestCase):
         self.assertEqual(response.json['documentation'],
                          'http://webpush-channels-broadcasting.readthedocs.io/')
 
-
-		

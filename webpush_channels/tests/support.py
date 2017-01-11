@@ -8,7 +8,7 @@ class BaseWebTest(testing.BaseWebTest):
 
     def __init__(self, *args, **kwargs):
         super(BaseWebTest, self).__init__(*args, **kwargs)
-        self.headers.update(testing.get_user_headers('mk'))
+        self.headers.update(testing.get_user_headers('mkaur'))
 
     def get_app_settings(self, extras=None):
         settings = DEFAULT_SETTINGS.copy()
@@ -16,3 +16,4 @@ class BaseWebTest(testing.BaseWebTest):
             settings.update(extras)
         settings = super(BaseWebTest, self).get_app_settings(extras=settings)
         return settings
+
