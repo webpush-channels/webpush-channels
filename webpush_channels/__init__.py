@@ -14,6 +14,9 @@ __version__ = pkg_resources.get_distribution(__package__).version
 # The API version is derivated from the module version.
 API_VERSION = 'v%s' % __version__.split('.')[0]
 
+# Implemented HTTP API Version
+HTTP_API_VERSION = '1.14'
+
 # Main readinglist logger
 logger = logging.getLogger(__name__)
 
@@ -25,11 +28,10 @@ DEFAULT_SETTINGS = {
     'cache_backend': 'kinto.core.cache.memory',
     'permission_backend': 'kinto.core.permission.memory',
     'storage_backend': 'kinto.core.storage.memory',
-    'project_docs': 'https://kinto.readthedocs.io/',
-    'permissions_read_principals': Everyone,
+    'project_docs': 'https://webpush-channels-broadcasting.readthedocs.io/',
     'multiauth.authorization_policy': (
 		'kinto.authorization.AuthorizationPolicy'),
-    'http_api_version': API_VERSION
+    'http_api_version': HTTP_API_VERSION
 }
 
 
