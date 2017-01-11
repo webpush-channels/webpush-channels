@@ -3,6 +3,7 @@ import logging
 
 from pyramid.config import Configurator
 from pyramid.settings import asbool
+from pyramid.security import Everyone
 
 import kinto.core
 
@@ -18,7 +19,17 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_SETTINGS = {
-    'kinto.core.paginate_by': 100
+	'kinto.core.paginate_by': 100,
+    'flush_endpoint_enabled': False,
+    'retry_after_seconds': 3,
+    'cache_backend': 'kinto.core.cache.memory',
+    'permission_backend': 'kinto.core.permission.memory',
+    'storage_backend': 'kinto.core.storage.memory',
+    'project_docs': 'https://kinto.readthedocs.io/',
+    'permissions_read_principals': Everyone,
+    'multiauth.authorization_policy': (
+		'kinto.authorization.AuthorizationPolicy'),
+    'http_api_version': API_VERSION
 }
 
 
