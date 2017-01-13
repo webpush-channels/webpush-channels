@@ -9,7 +9,7 @@ class HelloViewTest(BaseWebTest, unittest.TestCase):
 		self.assertEqual(response.json['project_version'], VERSION)
 		self.assertEqual(response.json['project_docs'],
                          'http://webpush-channels-broadcasting.readthedocs.io/')
-		self.assertEqual(response.json['url'], 'http://localhost:9999/v0/')
+		self.assertEqual(response.json['url'], 'http://localhost/v0/')
 
 class LoadBalancerHeartbeat(BaseWebTest, unittest.TestCase):
     def test_checks_if_lheartbeat_is_working(self):
