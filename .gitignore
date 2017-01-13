@@ -3,3 +3,8 @@ docs/build/
 *.egg-info/
 *.pyc
 version.json
+.cache/
+.eggs/
+.coverage
+build/
+.tox/
