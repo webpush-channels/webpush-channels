@@ -13,6 +13,8 @@ class DataSchema(colander.MappingSchema):
 class SubscriptionSchema(ResourceSchema):
     data = DataSchema()
 
-@register(record_methods=('GET', 'PATCH', 'DELETE'))
+@register(name='subscription',
+                   collection_path='/subscriptions',
+                   record_path='/subscriptions/{{subscription_id}}')
 class Subscription(UserResource):
     mapping = SubscriptionSchema()
