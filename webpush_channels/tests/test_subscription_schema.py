@@ -1,4 +1,3 @@
-import colander
 from webpush_channels.views.subscriptions import SubscriptionSchema
 import unittest
 
@@ -7,11 +6,11 @@ class SubscriptionSchemaTest(unittest.TestCase):
 		self.schema = SubscriptionSchema()
 		self.schema = self.schema.bind()
 		keys = dict(auth="authToken",
-        			p526dh="encryptionKey")
+				p256dh="encryptionKey")
 		push = dict(endpoint="https://push.mozilla.com",
         			keys=keys)
-		actions = ["write"]
-		path = "/buckets/blocklists/collections/*/records"
+		actions = ['write']
+		path = '/buckets/blocklists/collections/*/records'
 		triggers = dict(path=actions)
 		self.record = dict(push=push,
         				   triggers=triggers)
