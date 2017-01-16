@@ -1,6 +1,7 @@
 from webpush_channels.views.subscriptions import SubscriptionSchema
 import unittest
 
+
 class SubscriptionSchemaTest(unittest.TestCase):
     def setUp(self):
         self.schema = SubscriptionSchema()
