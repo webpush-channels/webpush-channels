@@ -2,7 +2,6 @@ import pkg_resources
 import logging
 
 from pyramid.config import Configurator
-from pyramid.security import Everyone
 
 import kinto.core
 
