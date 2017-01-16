@@ -18,7 +18,7 @@ class SubscriptionSchema(ResourceSchema):
 
 
 @register(name='subscription',
-       collection_path='/subscriptions',
-       record_path='/subscriptions/{{subscription_id}}')
+          collection_path='/subscriptions',
+          record_path='/subscriptions/{{subscription_id}}')
 class Subscription(UserResource):
     mapping = SubscriptionSchema()
