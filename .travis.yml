@@ -3,10 +3,14 @@ python: 2.7
 cache: pip
 env:
   - TOX_ENV=py27
-  - TOX_ENV=py34
   - TOX_ENV=flake8
   - TOX_ENV=docs
 install:
   - pip install tox
 script:
   - tox -e $TOX_ENV
+matrix:
+  include:
+    - python: 3.6
+      env:
+        - TOX_ENV=py36
