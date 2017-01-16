@@ -29,7 +29,7 @@ DEFAULT_SETTINGS = {
     'storage_backend': 'kinto.core.storage.memory',
     'project_docs': 'http://webpush-channels-broadcasting.readthedocs.io/',
     'multiauth.authorization_policy': (
-		'kinto.authorization.AuthorizationPolicy'),
+        'kinto.authorization.AuthorizationPolicy'),
     'http_api_version': HTTP_API_VERSION
 }
 
@@ -41,8 +41,8 @@ def main(global_config, config=None, **settings):
     config.add_settings({'kinto.project_name': 'webpush-channels'})
 
     kinto.core.initialize(config,
-			    version=__version__,
-			    default_settings=DEFAULT_SETTINGS)
+                          version=__version__,
+                          default_settings=DEFAULT_SETTINGS)
 
     config.scan("webpush_channels.views")
     app = config.make_wsgi_app()
