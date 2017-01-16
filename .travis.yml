@@ -8,12 +8,6 @@ env:
     - TOX_ENV=docs
     - ACTION=loadtest
 install:
-    - if [[ $ACTION != loadtest ]]; then pip install tox; fi
-    - if [[ $ACTION == loadtest ]]; then pip install psycopg2; fi
+ - pip install tox
 script:
-    - if [[ $ACTION != loadtest ]]; then tox -e $TOX_ENV; fi
-    - if [[ $ACTION == loadtest ]]; then make loadtest-check; fi
-after_success:
-    # Report coverage results to coveralls.io
-    - pip install coveralls
-    - coveralls
+ - tox -e $TOX_ENV
