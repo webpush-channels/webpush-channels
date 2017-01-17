@@ -26,7 +26,7 @@ DEFAULT_SETTINGS = {
     'cache_backend': 'kinto.core.cache.memory',
     'permission_backend': 'kinto.core.permission.memory',
     'storage_backend': 'kinto.core.storage.memory',
-    'project_docs': 'http://webpush-channels-broadcasting.readthedocs.io/',
+    'project_docs': 'https://webpush-channels-broadcasting.readthedocs.io/',
     'multiauth.authorization_policy': (
         'kinto.authorization.AuthorizationPolicy'),
     'http_api_version': HTTP_API_VERSION

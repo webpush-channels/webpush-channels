@@ -9,7 +9,7 @@ class HelloViewTest(BaseWebTest, unittest.TestCase):
         self.assertEqual(response.json['project_name'], 'webpush-channels')
         self.assertEqual(response.json['project_version'], VERSION)
         self.assertEqual(response.json['project_docs'],
-                         'http://webpush-channels-broadcasting.readthedocs.io/')
+                         'https://webpush-channels-broadcasting.readthedocs.io/')
         self.assertEqual(response.json['url'], 'http://localhost/v0/')
 
 
