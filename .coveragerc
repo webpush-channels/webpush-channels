@@ -1,0 +1,5 @@
+[run]
+omit = webpush_channels/tests/*
+
+[report]
+show_missing = True
