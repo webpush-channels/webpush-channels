@@ -9,6 +9,10 @@ install:
   - pip install tox
 script:
   - tox -e $TOX_ENV
+after_success:
+  - pip install coveralls
+  - coveralls
+
 matrix:
   include:
     - python: 3.6
