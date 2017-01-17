@@ -29,7 +29,7 @@ DEFAULT_SETTINGS = {
     'project_docs': 'https://webpush-channels-broadcasting.readthedocs.io/',
     'multiauth.authorization_policy': (
         'kinto.authorization.AuthorizationPolicy'),
-    'http_api_version': HTTP_API_VERSION
+    'http_api_version': HTTP_API_VERSION,
 }
 
 

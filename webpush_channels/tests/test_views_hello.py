@@ -1,5 +1,7 @@
+import unittest
+
 from webpush_channels import __version__ as VERSION
-from kinto.core.testing import unittest
+
 from .support import BaseWebTest
 
 
