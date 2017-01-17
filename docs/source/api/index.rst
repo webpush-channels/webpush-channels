@@ -32,23 +32,46 @@ Cheatsheet
 | `GET`    | :ref:`/__heartbeat__ <api-utilities>`                                        | :ref:`Return the status of dependent services                   |
 |          |                                                                              | <api-utilities>`                                                |
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| **Channels**                                                                                                                                              |
+
+| **Channels**
+                                                    |
+
++----------+----------------------------------------------------------------+-----------------------------------------------------------------+
+
+| `PUT`    | :ref:`/channels/(id)/registration <channel-registration-put>`  | :ref:`Subscribe to a channel <channel-registration-put>`	  |
+
++----------+-------------------------------------------------------------------+-----------------------------------------------------------------+
+
+| `DELETE` | :ref:`/channels/(id)/registration <channel-registration-delete>`  | :ref:`Unsubscribe from a channel <channel-registration-delete>` |
+
++----------+--------------------------------------+-----------------------------------------------------------------+
+
+| `GET`    | :ref:`/channels/(id) <channel-get>`  | :ref:`Get channel details <channel-get>`
+            |
+
++----------+---------------------------------------+-----------------------------------------------------------------+
+
+| `POST`   | :ref:`/channels/(id) <channel-post>`  | :ref:`Broadcast push notification <channel-post>`            |
+
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `PUT`    | :ref:`/channels/(channel_name)/registration <channel-registration-put>`      | :ref:`Subscribe to a channel <channel-registration-put>`        |
-+----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `DELETE` | :ref:`/channels/(channel_name)/registration <channel-registration-delete>`   | :ref:`Unsubscribe from a channel <channel-registration-delete>` |
-+----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `GET`    | :ref:`/channels/(channel_name) <channel-get>`                                | :ref:`Get channel details <channel-get>`                        |
-+----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `POST`   | :ref:`/channels/(channel_name) <channel-post>`                               | :ref:`Broadcast push notification <channel-post>`               |
-+----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
+
 | **Subscriptions**                                                                                                                                         |
+
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
+
 | `POST`   | :ref:`/subscriptions <subscriptions-post>`                                   | :ref:`Add a new user subscription <subscriptions-post>`         |
+
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `GET`    | :ref:`/subscriptions <subscriptions-get>`                                    | :ref:`Get the list of user's subscriptions <subscriptions-get>` |
-+----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `DELETE` | :ref:`/subscriptions <subscriptions-delete>`                                 | :ref:`Delete user's subscriptions <subscriptions-delete>`       |
-+----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `DELETE` | :ref:`/subscriptions/(subscription_id) <subscription-delete>`                | :ref:`Delete an user subscription <subscription-delete>`        |
+
+| `GET`    | :ref:`/subscriptions <subscriptions-get>`                                    | :ref:`Get the list of user's subscriptions <subscriptions-get>`
+													|
+
++----------+---------------------------------------------------+-----------------------------------------------------------------+
+
+| `DELETE` | :ref:`/subscriptions <subscriptions-delete>`      | :ref:`Delete user's subscriptions <subscriptions-delete>`   |
+
++----------+----------------------------------------------------------------+-----------------------------------------------------------------+
+
+| `DELETE` | :ref:`/subscriptions/(subscription_id) <subscription-delete>`  | :ref:`Delete an user subscription <subscription-delete>`   |
+
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
