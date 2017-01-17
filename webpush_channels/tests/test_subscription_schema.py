@@ -8,10 +8,9 @@ class SubscriptionSchemaTest(unittest.TestCase):
         self.schema = self.schema.bind()
         keys = dict(auth="authToken",
                     p256dh="encryptionKey")
-        data = dict(endpoint="https://push.mozilla.com",
-                    keys=keys)
-        self.record = dict(data=data)
+        self.record = dict(endpoint="https://push.mozilla.com",
+                           keys=keys)
         self.deserialized = self.schema.deserialize(self.record)
 
     def test_record_validation(self):
-        self.assertEqual(self.deserialized['data'], self.record['data'])
+        self.assertEqual(self.deserialized, self.record)
