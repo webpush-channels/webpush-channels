@@ -3,7 +3,7 @@ from kinto.core.resource import register, UserResource
 from kinto.core.resource.schema import ResourceSchema
 
 
-class ChannelRegistrationSchema(colander.MappingSchema):
+class ChannelRegistrationSchema(ResourceSchema):
     channel_id = colander.SchemaNode(colander.String())
     user_id = colander.SchemaNode(colander.String())
 
