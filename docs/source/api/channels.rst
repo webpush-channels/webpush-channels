@@ -17,7 +17,7 @@ list of users that can publish on given channels.
 Register to a channel
 =====================
 
-.. http:put:: /channels/(id)/registration
+.. http:put:: /channels/(channel_id)/registration
 
     :synopsis: Subscribe the user to the channel
 
@@ -54,7 +54,7 @@ Register to a channel
 Unsubscribing from a channel
 ============================
 
-.. http:delete:: /channels/(id)/registration
+.. http:delete:: /channels/(channel_id)/registration
 
     :synopsis: Unsubscribe the user from the channel
 
@@ -91,7 +91,7 @@ Unsubscribing from a channel
 Getting channels informations
 =============================
 
-.. http:get:: /channels/(id)
+.. http:get:: /channels/(channel_id)
 
     :synopsis: Retrieve channel informations
 
@@ -148,7 +148,7 @@ configuration can broadcast notifications.
 However in the future we aim at adding a permissions management feature to
 the channel.
 
-.. http:post:: /channels/(id)
+.. http:post:: /channels/(channel_id)
 
     :synopsis: Push a notification
 

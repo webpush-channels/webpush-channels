@@ -36,22 +36,22 @@ Cheatsheet
 | **Channels**
                                                     |
 
-+----------+----------------------------------------------------------------+-----------------------------------------------------------------+
++----------+------------------------------------------------------------------------+-----------------------------------------------------------------+
 
-| `PUT`    | :ref:`/channels/(id)/registration <channel-registration-put>`  | :ref:`Subscribe to a channel <channel-registration-put>`	  |
+| `PUT`    | :ref:`/channels/(channel_id)/registration <channel-registration-put>`  | :ref:`Subscribe to a channel <channel-registration-put>`	     |
 
-+----------+-------------------------------------------------------------------+-----------------------------------------------------------------+
++----------+---------------------------------------------------------------------------+-------------------------------------------------------------------+
 
-| `DELETE` | :ref:`/channels/(id)/registration <channel-registration-delete>`  | :ref:`Unsubscribe from a channel <channel-registration-delete>` |
+| `DELETE` | :ref:`/channels/(channel_id)/registration <channel-registration-delete>`  | :ref:`Unsubscribe from a channel <channel-registration-delete>`  |
 
-+----------+--------------------------------------+-----------------------------------------------------------------+
++----------+----------------------------------------------+-----------------------------------------------------------------+
 
-| `GET`    | :ref:`/channels/(id) <channel-get>`  | :ref:`Get channel details <channel-get>`
-            |
+| `GET`    | :ref:`/channels/(channel_id) <channel-get>`  | :ref:`Get channel details <channel-get>`
+                |
 
-+----------+---------------------------------------+-----------------------------------------------------------------+
++----------+-----------------------------------------------+-----------------------------------------------------------------+
 
-| `POST`   | :ref:`/channels/(id) <channel-post>`  | :ref:`Broadcast push notification <channel-post>`            |
+| `POST`   | :ref:`/channels/(channel_id) <channel-post>`  | :ref:`Broadcast push notification <channel-post>`               |
 
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
 
