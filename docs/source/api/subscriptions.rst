@@ -15,7 +15,7 @@ requesting a Push subscription on the browser.
 
     {
     	"data": {
-            "endpoint": "https://updates.push.services.mozilla.com/wpush/v0/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
+            "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
             "keys": {
                 "auth": "pnipzxpMvKBNYZAcxc-MAA",
                 "p256dh": "BEVoH6cOlNPuvYR0aVJo4GVv84nbymzpXxNff7hpKYjVIFcuIEtqiLtIe4rLOXF_A2w3KWRJoCYJEjUedrXcNpc"
@@ -57,7 +57,7 @@ Add a new user subscription
 
         {
         	"data": {
-                "endpoint": "https://updates.push.services.mozilla.com/wpush/v0/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
+                "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
                 "keys": {
                     "auth": "pnipzxpMvKBNYZAcxc-MAA",
                     "p256dh": "BEVoH6cOlNPuvYR0aVJo4GVv84nbymzpXxNff7hpKYjVIFcuIEtqiLtIe4rLOXF_A2w3KWRJoCYJEjUedrXcNpc"
@@ -78,7 +78,7 @@ Add a new user subscription
 
         {
         	"data": {
-                "endpoint": "https://updates.push.services.mozilla.com/wpush/v0/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
+                "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
                 "keys": {
                     "auth": "pnipzxpMvKBNYZAcxc-MAA",
                     "p256dh": "BEVoH6cOlNPuvYR0aVJo4GVv84nbymzpXxNff7hpKYjVIFcuIEtqiLtIe4rLOXF_A2w3KWRJoCYJEjUedrXcNpc"
@@ -133,7 +133,7 @@ Retrieving user's subscriptions
         {
             "data": [
 			    {
-                    "endpoint": "https://updates.push.services.mozilla.com/wpush/v0/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
+                    "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
                     "keys": {
                         "auth": "pnipzxpMvKBNYZAcxc-MAA",
                         "p256dh": "BEVoH6cOlNPuvYR0aVJo4GVv84nbymzpXxNff7hpKYjVIFcuIEtqiLtIe4rLOXF_A2w3KWRJoCYJEjUedrXcNpc"
