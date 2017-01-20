@@ -27,16 +27,16 @@ Register to a channel
 
     .. sourcecode:: bash
 
-        $ http PUT http://localhost:8888/v1/channels/formbuilder-collections-update/registration Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
+        $ http PUT http://localhost:9999/v0/channels/formbuilder-collections-update/registration Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
 
     .. sourcecode:: http
 
-        PUT /v1/channels/formbuilder-collections-update/registration HTTP/1.1
+        PUT /v0/channels/formbuilder-collections-update/registration HTTP/1.1
         Accept: */*
         Accept-Encoding: gzip, deflate
         Authorization: Portier dccd8ac07f3e45c9907da638e994ff98
         Connection: keep-alive
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
 
@@ -64,16 +64,16 @@ Unsubscribing from a channel
 
     .. sourcecode:: bash
 
-        $ http delete http://localhost:8888/v1/channels/formbuilder-collections-write/registration Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
+        $ http delete http://localhost:9999/v0/channels/formbuilder-collections-write/registration Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
 
     .. sourcecode:: http
 
-        DELETE /v1/channels/formbuilder-collections-update/registration HTTP/1.1
+        DELETE /v0/channels/formbuilder-collections-update/registration HTTP/1.1
         Accept: */*
         Accept-Encoding: gzip, deflate
         Authorization: Portier dccd8ac07f3e45c9907da638e994ff98
         Connection: keep-alive
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
 
@@ -99,16 +99,16 @@ Getting channels informations
 
     .. sourcecode:: bash
 
-        $ http get http://localhost:8888/v1/channels/formbuilder-collection-write Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
+        $ http get http://localhost:9999/v0/channels/formbuilder-collection-write Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
 
     .. sourcecode:: http
 
-        GET /v1/channels/formbuilder-collection-write HTTP/1.1
+        GET /v0/channels/formbuilder-collection-write HTTP/1.1
         Accept: */*
         Accept-Encoding: gzip, deflate
         Authorization: Basic Ym9iOg==
         Connection: keep-alive
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
     **Example Response**
@@ -158,18 +158,18 @@ the channel.
 
     .. sourcecode:: bash
 
-        $ http post http://localhost:8888/v1/channels/formbuilder-collections-write Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
+        $ http post http://localhost:9999/v0/channels/formbuilder-collections-write Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
 
     .. sourcecode:: http
 
-        POST /v1/channels/formbuilder-collections-update HTTP/1.1
+        POST /v0/channels/formbuilder-collections-update HTTP/1.1
         Accept: application/json
         Accept-Encoding: gzip, deflate
         Authorization: Basic Ym9iOg==
         Connection: keep-alive
         Content-Length: 25
         Content-Type: application/json
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
         {
