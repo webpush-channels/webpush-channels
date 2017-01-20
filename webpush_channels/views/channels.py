@@ -1,45 +1,59 @@
-import colander
-from kinto.core.resource import register, UserResource
-from kinto.core.resource.schema import ResourceSchema
-from pyramid.httpexceptions import HTTPNotFound
-from kinto.core.events import ACTIONS
+from pyramid.security import NO_PERMISSION_REQUIRED
+from pyramid import httpexceptions
+
+from kinto.core import Service
+
+REGISTRATION_COLLECTION_ID = 'channel_registration'
+
+channel = Service(name='channel',
+                  description='Handle channel information',
+                  path='/channels/{channel_id}')
 
 
-class ChannelRegistrationSchema(ResourceSchema):
-    channel_id = colander.SchemaNode(colander.String())
-    user_id = colander.SchemaNode(colander.String())
+channel_registration = Service(name='channel_registration',
+                               description='Handle user registration for a channel',
+                               path='/channels/{channel_id}/registration')
 
 
-@register(name='channel',
-          collection_path='/channels/{{channel_id}}/registration',
-          record_path='/channels/{{channel_id}}/registration/{{id}}',
-          collection_methods=('PUT', 'DELETE'))
-class ChannelRegistration(UserResource):
-    mapping = ChannelRegistrationSchema()
+# Channel views
+@channel.get(permission=NO_PERMISSION_REQUIRED)
+def retrieve_channel_information(request):
+    channel_id = request.matchdict['channel_id']
+    parent_id = '/channels/{}'.format(channel_id)
 
-    def collection_put(self):
-        new_record = self.request.validated['body'].get('data', {})
-        try:
-            id_field = self.model.id_field
-            new_record[id_field] = _id = self.request.json['data'][id_field]
-            self._raise_400_if_invalid_id(_id)
-            existing = self._get_record_or_404(_id)
-        except (HTTPNotFound, KeyError, ValueError):
-            existing = None
+    registrations, count = request.registry.storage.get_all(
+        collection_id=REGISTRATION_COLLECTION_ID,
+        parent_id=parent_id)
 
-        self._raise_412_if_modified(record=existing)
+    return {"data": {
+        "registrations": count,
+        "push": 0
+    }}
 
-        if existing:
-            new_record = self.process_record(new_record)
-            record = self.model.update_record(new_record)
-            action = ACTIONS.UPDATE
-        else:
-            new_record = self.process_record(new_record)
-            record = self.model.create_record(new_record)
-            self.request.response.status_code = 201
-            action = ACTIONS.CREATE
 
-        timestamp = record[self.model.modified_field]
-        self._add_timestamp_header(self.request.response, timestamp=timestamp)
+# Channel Registration views
 
-        return self.postprocess(record, action=action)
+@channel_registration.put(permission=NO_PERMISSION_REQUIRED)
+def add_user_registration(request):
+    channel_id = request.matchdict['channel_id']
+    parent_id = '/channels/{}'.format(channel_id)
+
+    request.registry.storage.update(
+        collection_id=REGISTRATION_COLLECTION_ID,
+        parent_id=parent_id,
+        object_id=request.prefixed_userid,
+        record={})
+    return httpexceptions.HTTPAccepted()
+
+
+@channel_registration.delete(permission=NO_PERMISSION_REQUIRED)
+def remove_user_registration(request):
+    channel_id = request.matchdict['channel_id']
+    parent_id = '/channels/{}'.format(channel_id)
+
+    request.registry.storage.delete(
+        collection_id=REGISTRATION_COLLECTION_ID,
+        parent_id=parent_id,
+        object_id=request.prefixed_userid,
+        with_deleted=True)
+    return httpexceptions.HTTPAccepted()
