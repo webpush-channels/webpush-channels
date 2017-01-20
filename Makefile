@@ -83,7 +83,7 @@ tests-once: install-dev version-file
 	$(VENV)/bin/py.test --cov-report term-missing --cov-fail-under 100 --cov webpush_channels
 
 flake8: install-dev
-	$(VENV)/bin/flake8 webpush_channels tests
+	$(VENV)/bin/flake8 webpush_channels
 
 tests: version-file
 	$(VENV)/bin/tox
