@@ -8,7 +8,18 @@ from copy import deepcopy
 from kinto.core.utils import decode_header
 from kinto.core.testing import get_user_headers
 
-from .support import BaseWebTest, MINIMALIST_SUBSCRIPTION
+from .support import BaseWebTest
+
+
+MINIMALIST_SUBSCRIPTION = {
+    "data": {
+        "keys": {
+            "auth": "authToken",
+            "p256dh": "encryptionKey"
+        },
+        "endpoint": "https://push.mozilla.com"
+    }
+}
 
 
 class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
