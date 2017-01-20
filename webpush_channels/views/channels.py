@@ -32,7 +32,6 @@ def retrieve_channel_information(request):
 
 
 # Channel Registration views
-
 @channel_registration.put(permission=NO_PERMISSION_REQUIRED)
 def add_user_registration(request):
     channel_id = request.matchdict['channel_id']
