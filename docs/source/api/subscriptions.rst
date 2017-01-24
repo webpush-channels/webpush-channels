@@ -41,18 +41,18 @@ Add a new user subscription
 
     .. sourcecode:: bash
 
-        $ echo '{"data": {"endpoint": "URL", "keys": {}}}' | http post http://localhost:8888/v1/subscriptions Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
+        $ echo '{"data": {"endpoint": "URL", "keys": {}}}' | http post http://localhost:9999/v0/subscriptions Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98" -v
 
     .. sourcecode:: http
 
-        POST /v1/subscriptions HTTP/1.1
+        POST /v0/subscriptions HTTP/1.1
         Accept: application/json
         Accept-Encoding: gzip, deflate
         Authorization: Portier dccd8ac07f3e45c9907da638e994ff98
         Connection: keep-alive
         Content-Length: 25
         Content-Type: application/json
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
         {
@@ -106,16 +106,16 @@ Retrieving user's subscriptions
 
     .. sourcecode:: bash
 
-        $ http get http://localhost:8888/v1/subscriptions Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98"
+        $ http get http://localhost:9999/v0/subscriptions Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98"
 
     .. sourcecode:: http
 
-        GET /v1/subscriptions HTTP/1.1
+        GET /v0/subscriptions HTTP/1.1
         Accept: */*
         Accept-Encoding: gzip, deflate
         Authorization: Portier dccd8ac07f3e45c9907da638e994ff98
         Connection: keep-alive
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
     .. sourcecode:: http
@@ -160,16 +160,16 @@ Delete user's subscriptions
 
     .. sourcecode:: bash
 
-        $ http delete http://localhost:8888/v1/subscriptions Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98"
+        $ http delete http://localhost:9999/v0/subscriptions Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98"
 
     .. sourcecode:: http
 
-        DELETE /v1/subscriptions HTTP/1.1
+        DELETE /v0/subscriptions HTTP/1.1
         Accept: */*
         Accept-Encoding: gzip, deflate
         Authorization: Portier dccd8ac07f3e45c9907da638e994ff98
         Connection: keep-alive
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
     **Example Response**
@@ -207,17 +207,17 @@ Deleting a single subscription
 
     .. sourcecode:: bash
 
-        $ http delete http://localhost:8888/v1/subscriptions/89881454-e4e9-4ef0-99a9-404d95900352  Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98"
+        $ http delete http://localhost:9999/v0/subscriptions/89881454-e4e9-4ef0-99a9-404d95900352  Authorization:"Portier dccd8ac07f3e45c9907da638e994ff98"
 
     .. sourcecode:: http
 
-        DELETE /v1/subscriptions/89881454-e4e9-4ef0-99a9-404d95900352 HTTP/1.1
+        DELETE /v0/subscriptions/89881454-e4e9-4ef0-99a9-404d95900352 HTTP/1.1
         Accept: */*
         Accept-Encoding: gzip, deflate
         Authorization: Portier dccd8ac07f3e45c9907da638e994ff98
         Connection: keep-alive
         Content-Length: 0
-        Host: localhost:8888
+        Host: localhost:9999
         User-Agent: HTTPie/0.9.2
 
     **Example Response**
