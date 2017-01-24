@@ -24,8 +24,7 @@ class ChannelRegistrationTest(BaseWebTest, unittest.TestCase):
         assert resp.json['data']['registrations'] == 0
 
     def test_remove_non_existent_registration(self):
-        self.assertRaises(self.app.delete(self.channel_registration_url,
-                                          headers=self.headers, status=202))
+        self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
 
 
 class BackendErrorTest(BaseWebTest, unittest.TestCase):
