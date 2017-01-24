@@ -36,7 +36,7 @@ class BackendErrorTest(BaseWebTest, unittest.TestCase):
         super(BackendErrorTest, self).setUp()
         self.error = storage_exceptions.BackendError(ValueError())
         self.storage_error_patcher = mock.patch(
-            'kinto.core.storage.memory.Storage.create',
+            'kinto.core.storage.memory.Storage.update',
             side_effect=self.error)
 
     def test_backend_errors_are_served_as_503(self):
