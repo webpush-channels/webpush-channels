@@ -2,6 +2,8 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid import httpexceptions
 
 from kinto.core import Service
+from kinto.core.storage.exceptions import RecordNotFoundError
+
 
 REGISTRATION_COLLECTION_ID = 'channel_registration'
 
@@ -50,9 +52,13 @@ def remove_user_registration(request):
     channel_id = request.matchdict['channel_id']
     parent_id = '/channels/{}'.format(channel_id)
 
-    request.registry.storage.delete(
-        collection_id=REGISTRATION_COLLECTION_ID,
-        parent_id=parent_id,
-        object_id=request.prefixed_userid,
-        with_deleted=True)
+    try:
+        request.registry.storage.delete(
+            collection_id=REGISTRATION_COLLECTION_ID,
+            parent_id=parent_id,
+            object_id=request.prefixed_userid,
+            with_deleted=True)
+    except RecordNotFoundError:
+        # If the record has already been removed that's fine.
+        pass
     return httpexceptions.HTTPAccepted()
