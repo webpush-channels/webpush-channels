@@ -46,7 +46,9 @@ class BackendErrorTest(BaseWebTest, unittest.TestCase):
 
 
 class ChannelsTest(BaseWebTest, unittest.TestCase):
+
     channel_url = '/channels/food'
+    channel_registration_url = '/channels/food/registration'
 
     def setUp(self):
         super(ChannelsTest, self).setUp()
@@ -60,3 +62,10 @@ class ChannelsTest(BaseWebTest, unittest.TestCase):
 
         assert resp.json['data']['registrations'] == 0
         assert resp.json['data']['push'] == 0
+
+    def test_push_notifications_can_be_sent_to_channel(self):
+        self.app.put(self.channel_registration_url, headers=self.headers, status=202)
+        resp = self.app.post(self.channel_url, headers=self.headers, status=200)
+        assert 'data' in resp.json
+
+        assert 'last_modified' in resp.json['data']

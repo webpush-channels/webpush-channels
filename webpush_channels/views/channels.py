@@ -18,6 +18,20 @@ channel_registration = Service(name='channel_registration',
 
 
 # Channel views
+@channel.post(permission=NO_PERMISSION_REQUIRED)
+def send_push_notifications(request):
+    channel_id = request.matchdict['channel_id']
+    parent_id = '/channels/{}'.format(channel_id)
+
+    last_modified, timestamp = request.registry.storage.get_all(
+        collection_id=REGISTRATION_COLLECTION_ID,
+        parent_id=parent_id)
+
+    return {"data": {
+        "last_modified": timestamp,
+    }}
+
+
 @channel.get(permission=NO_PERMISSION_REQUIRED)
 def retrieve_channel_information(request):
     channel_id = request.matchdict['channel_id']
