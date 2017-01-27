@@ -26,6 +26,12 @@ class ChannelRegistrationTest(BaseWebTest, unittest.TestCase):
     def test_remove_non_existent_registration(self):
         self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
 
+    def test_we_cannot_register_an_anonymous_user(self):
+        self.app.put(self.channel_registration_url, status=401)
+
+    def test_we_cannot_unregister_an_anonymous_user(self):
+        self.app.delete(self.channel_registration_url, status=401)
+
 
 class BackendErrorTest(BaseWebTest, unittest.TestCase):
 
