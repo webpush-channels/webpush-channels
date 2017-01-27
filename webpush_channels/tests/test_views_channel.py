@@ -122,4 +122,5 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
             self.app.post_json(self.channel_url, MINIMALIST_PAYLOAD,
                                headers=self.headers, status=202)
             webpusher_mock.assert_called_with(self.subscription)
-            webpusher_mock.return_value.send.assert_called_with(data=MINIMALIST_PAYLOAD['data'], ttl=15)
+            webpusher_mock.return_value.send.assert_called_with(
+                data=MINIMALIST_PAYLOAD['data'], ttl=15)
