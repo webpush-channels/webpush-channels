@@ -3,6 +3,17 @@ from webpush_channels import main as webpush_main
 from webpush_channels import DEFAULT_SETTINGS
 
 
+MINIMALIST_SUBSCRIPTION = {
+    "data": {
+        "keys": {
+            "auth": "authToken",
+            "p256dh": "encryptionKey"
+        },
+        "endpoint": "https://push.mozilla.com"
+    }
+}
+
+
 class BaseWebTest(testing.BaseWebTest):
 
     api_prefix = "v0"

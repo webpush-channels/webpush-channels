@@ -1,8 +1,10 @@
 import unittest
 import mock
-from .support import BaseWebTest
+
 from kinto.core import testing
 from kinto.core.storage import exceptions as storage_exceptions
+
+from .support import BaseWebTest, MINIMALIST_SUBSCRIPTION
 
 
 class ChannelRegistrationTest(BaseWebTest, unittest.TestCase):
@@ -60,6 +62,7 @@ class RegisteredChannelsTest(BaseWebTest, unittest.TestCase):
 
     channel_url = '/channels/food'
     channel_registration_url = '/channels/food/registration'
+    subscription_url = '/subscriptions'
 
     def setUp(self):
         super(RegisteredChannelsTest, self).setUp()
@@ -90,5 +93,14 @@ class RegisteredChannelsTest(BaseWebTest, unittest.TestCase):
         resp = self.app.get(self.channel_url, headers=self.headers, status=200)
         assert resp.json['data']['registrations'] == 1
 
-    def test_push_notifications_can_be_sent_to_channel_with_registration(self):
+    def test_push_notifications_can_be_sent_to_channel_with_registration_but_no_subscription(self):
         self.app.post(self.channel_url, headers=self.headers, status=202)
+
+    def test_push_notifications_can_be_sent_to_channel_with_registration_and_subscription(self):
+        resp = self.app.post_json(self.subscription_url,
+                                  MINIMALIST_SUBSCRIPTION,
+                                  headers=self.headers)
+        subscription = resp.json['data']
+        with mock.patch('webpush_channels.views.channels.WebPusher') as webpusher_mock:
+            self.app.post(self.channel_url, headers=self.headers, status=202)
+            webpusher_mock.assert_called_with(subscription)
