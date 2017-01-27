@@ -53,6 +53,11 @@ def retrieve_channel_information(request):
         collection_id=REGISTRATION_COLLECTION_ID,
         parent_id=parent_id)
 
+    user_registered = [r for r in registrations if r['id'] == request.prefixed_userid]
+
+    if not user_registered:
+        return httpexceptions.HTTPForbidden()
+
     return {"data": {
         "registrations": count,
         "push": 0
