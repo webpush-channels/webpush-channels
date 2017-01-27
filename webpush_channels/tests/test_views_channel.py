@@ -67,3 +67,22 @@ class ChannelsTest(BaseWebTest, unittest.TestCase):
         self.app.put(self.channel_registration_url, headers=self.headers, status=202)
         resp = self.app.get(self.channel_url, headers=self.headers, status=200)
         assert resp.json['data']['registrations'] == 1
+
+    def test_push_notifications_can_be_sent_to_channel_even_without_registration(self):
+        self.app.post(self.channel_url, headers=self.headers, status=202)
+
+    def test_401_without_headers(self):
+        self.app.put(self.channel_registration_url, status=401)
+
+
+class ChannelsNotificationTest(BaseWebTest, unittest.TestCase):
+
+    channel_url = '/channels/food'
+    channel_registration_url = '/channels/food/registration'
+
+    def setUp(self):
+        super(ChannelsNotificationTest, self).setUp()
+        self.app.put(self.channel_registration_url, headers=self.headers, status=202)
+
+    def test_push_notifications_can_be_sent_to_channel_with_registration(self):
+        self.app.post(self.channel_url, headers=self.headers, status=202)

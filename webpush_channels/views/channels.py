@@ -1,11 +1,14 @@
-from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid import httpexceptions
+
+from pywebpush import WebPusher
 
 from kinto.core import Service
 from kinto.core.storage.exceptions import RecordNotFoundError
+from kinto.core.authorization import PRIVATE
 
 
 REGISTRATION_COLLECTION_ID = 'channel_registration'
+SUBSCRIPTION_COLLECTION_ID = 'subscription'
 
 channel = Service(name='channel',
                   description='Handle channel information',
@@ -18,7 +21,30 @@ channel_registration = Service(name='channel_registration',
 
 
 # Channel views
-@channel.get(permission=NO_PERMISSION_REQUIRED)
+@channel.post(permission=PRIVATE)
+def send_push_notifications(request):
+    channel_id = request.matchdict['channel_id']
+    parent_id = '/channels/{}'.format(channel_id)
+
+    registrations, count = request.registry.storage.get_all(
+        collection_id=REGISTRATION_COLLECTION_ID,
+        parent_id=parent_id)
+
+    subscriptions = []
+
+    for registration in registrations:
+        user_subscriptions, count = request.registry.storage.get_all(
+                    collection_id = SUBSCRIPTION_COLLECTION_ID,
+                    parent_id=registration['id'])
+        subscriptions += user_subscriptions
+
+    for subscription in subscriptions:
+        WebPusher(subscription).send(data={}, ttl=15)
+
+    return httpexceptions.HTTPAccepted()
+
+
+@channel.get(permission=PRIVATE)
 def retrieve_channel_information(request):
     channel_id = request.matchdict['channel_id']
     parent_id = '/channels/{}'.format(channel_id)
@@ -34,7 +60,7 @@ def retrieve_channel_information(request):
 
 
 # Channel Registration views
-@channel_registration.put(permission=NO_PERMISSION_REQUIRED)
+@channel_registration.put(permission=PRIVATE)
 def add_user_registration(request):
     channel_id = request.matchdict['channel_id']
     parent_id = '/channels/{}'.format(channel_id)
@@ -44,10 +70,11 @@ def add_user_registration(request):
         parent_id=parent_id,
         object_id=request.prefixed_userid,
         record={})
+
     return httpexceptions.HTTPAccepted()
 
 
-@channel_registration.delete(permission=NO_PERMISSION_REQUIRED)
+@channel_registration.delete(permission=PRIVATE)
 def remove_user_registration(request):
     channel_id = request.matchdict['channel_id']
     parent_id = '/channels/{}'.format(channel_id)
