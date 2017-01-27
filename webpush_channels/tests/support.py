@@ -13,6 +13,15 @@ MINIMALIST_SUBSCRIPTION = {
     }
 }
 
+MINIMALIST_PAYLOAD = {
+    'data': {
+        'url': "https://push.mozilla.com",
+        'author': {
+            'name': 'foobar'
+        }
+    }
+}
+
 
 class BaseWebTest(testing.BaseWebTest):
 

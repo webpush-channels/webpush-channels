@@ -4,7 +4,7 @@ import mock
 from kinto.core import testing
 from kinto.core.storage import exceptions as storage_exceptions
 
-from .support import BaseWebTest, MINIMALIST_SUBSCRIPTION
+from .support import BaseWebTest, MINIMALIST_SUBSCRIPTION, MINIMALIST_PAYLOAD
 
 
 class ChannelRegistrationTest(BaseWebTest, unittest.TestCase):
@@ -96,11 +96,30 @@ class RegisteredChannelsTest(BaseWebTest, unittest.TestCase):
     def test_push_notifications_can_be_sent_to_channel_with_registration_but_no_subscription(self):
         self.app.post(self.channel_url, headers=self.headers, status=202)
 
-    def test_push_notifications_can_be_sent_to_channel_with_registration_and_subscription(self):
+
+class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
+    channel_url = '/channels/food'
+    channel_registration_url = '/channels/food/registration'
+    subscription_url = '/subscriptions'
+
+    def setUp(self):
+        super(RegisteredAndSubscribedChannelsTest, self).setUp()
+        self.app.put(self.channel_registration_url, headers=self.headers, status=202)
         resp = self.app.post_json(self.subscription_url,
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers)
-        subscription = resp.json['data']
-        with mock.patch('webpush_channels.views.channels.WebPusher') as webpusher_mock:
+        self.subscription = resp.json['data']
+
+        self.webpusher_error_patcher = mock.patch('webpush_channels.views.channels.WebPusher')
+
+    def test_push_notifications_can_be_sent_to_channel_with_registration_and_subscription(self):
+        with self.webpusher_error_patcher as webpusher_mock:
             self.app.post(self.channel_url, headers=self.headers, status=202)
-            webpusher_mock.assert_called_with(subscription)
+            webpusher_mock.assert_called_with(self.subscription)
+
+    def test_push_notification_can_take_a_payload(self):
+        with self.webpusher_error_patcher as webpusher_mock:
+            self.app.post_json(self.channel_url, MINIMALIST_PAYLOAD,
+                               headers=self.headers, status=202)
+            webpusher_mock.assert_called_with(self.subscription)
+            webpusher_mock.return_value.send.assert_called_with(data=MINIMALIST_PAYLOAD['data'], ttl=15)

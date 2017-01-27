@@ -1,8 +1,11 @@
+import colander
+from cornice.validators import colander_body_validator
 from pyramid import httpexceptions
 
 from pywebpush import WebPusher
 
 from kinto.core import Service
+from kinto.core.resource.viewset import StrictSchema, SimpleSchema
 from kinto.core.storage.exceptions import RecordNotFoundError
 from kinto.core.authorization import PRIVATE
 
@@ -20,8 +23,12 @@ channel_registration = Service(name='channel_registration',
                                path='/channels/{channel_id}/registration')
 
 
+class PayloadSchema(StrictSchema):
+    data = SimpleSchema(missing=colander.drop)
+
+
 # Channel views
-@channel.post(permission=PRIVATE)
+@channel.post(permission=PRIVATE, schema=PayloadSchema(), validators=(colander_body_validator,))
 def send_push_notifications(request):
     channel_id = request.matchdict['channel_id']
     parent_id = '/channels/{}'.format(channel_id)
@@ -39,7 +46,7 @@ def send_push_notifications(request):
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
-        WebPusher(subscription).send(data={}, ttl=15)
+        WebPusher(subscription).send(data=request.validated.get('data'), ttl=15)
 
     return httpexceptions.HTTPAccepted()
 
