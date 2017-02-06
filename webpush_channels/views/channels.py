@@ -2,7 +2,7 @@ import colander
 from cornice.validators import colander_body_validator
 from pyramid import httpexceptions
 
-from pywebpush import WebPusher, WebPushException
+from pywebpush import WebPusher
 
 from kinto.core import Service
 from kinto.core.resource.viewset import StrictSchema, SimpleSchema
@@ -48,7 +48,7 @@ def send_push_notifications(request):
     for subscription in subscriptions:
         try:
             push_initialize = WebPusher(subscription)
-        except WebPushException, err:
+        except Exception, err:
             return httpexceptions.HTTPBadRequest(explanation=err)
 
         push_initialize.send(data=request.validated.get('data'), ttl=15)

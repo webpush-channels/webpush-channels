@@ -124,3 +124,15 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
             webpusher_mock.assert_called_with(self.subscription)
             webpusher_mock.return_value.send.assert_called_with(
                 data=MINIMALIST_PAYLOAD['data'], ttl=15)
+
+    def test_invalid_encryption_keys_shows_error(self):
+        CHANGED_SUBSCRIPTION = MINIMALIST_SUBSCRIPTION
+        CHANGED_SUBSCRIPTION['data']['keys']['p256dh'] = 'y'
+
+        self.app.post_json(self.subscription_url,
+                           CHANGED_SUBSCRIPTION,
+                           headers=self.headers)
+        self.app.put(self.channel_registration_url, headers=self.headers, status=202)
+
+        self.app.post_json(self.channel_url, MINIMALIST_PAYLOAD,
+                           headers=self.headers, status=400)
