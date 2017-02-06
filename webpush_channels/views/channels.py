@@ -41,8 +41,8 @@ def send_push_notifications(request):
 
     for registration in registrations:
         user_subscriptions, count = request.registry.storage.get_all(
-                                        collection_id=SUBSCRIPTION_COLLECTION_ID,
-                                        parent_id=registration['id'])
+            collection_id=SUBSCRIPTION_COLLECTION_ID,
+            parent_id=registration['id'])
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
