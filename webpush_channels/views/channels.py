@@ -1,6 +1,7 @@
 import colander
 from cornice.validators import colander_body_validator
 from pyramid import httpexceptions
+import json
 
 from pywebpush import WebPusher
 
@@ -45,13 +46,17 @@ def send_push_notifications(request):
             parent_id=registration['id'])
         subscriptions += user_subscriptions
 
+    print subscriptions
+
     for subscription in subscriptions:
+        data = request.validated.get('data')
+        if data is None:
+            data = "You have a message"
         try:
             push_initialize = WebPusher(subscription)
+            push_initialize.send(data=json.dumps(data), ttl=15)
         except Exception as err:
             return httpexceptions.HTTPBadRequest(explanation=err)
-
-        push_initialize.send(data=request.validated.get('data'), ttl=15)
 
     return httpexceptions.HTTPAccepted()
 

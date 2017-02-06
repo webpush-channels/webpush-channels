@@ -1,5 +1,6 @@
 import unittest
 import mock
+import json
 
 from kinto.core import testing
 from kinto.core.storage import exceptions as storage_exceptions
@@ -123,7 +124,7 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
                                headers=self.headers, status=202)
             webpusher_mock.assert_called_with(self.subscription)
             webpusher_mock.return_value.send.assert_called_with(
-                data=MINIMALIST_PAYLOAD['data'], ttl=15)
+                data=json.dumps(MINIMALIST_PAYLOAD['data']), ttl=15)
 
     def test_invalid_encryption_keys_shows_error(self):
         CHANGED_SUBSCRIPTION = MINIMALIST_SUBSCRIPTION
