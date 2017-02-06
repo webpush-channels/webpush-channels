@@ -114,9 +114,12 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
         self.webpusher_error_patcher = mock.patch('webpush_channels.views.channels.WebPusher')
 
     def test_push_notifications_can_be_sent_to_channel_with_registration_and_subscription(self):
+        data = "You have a message"
         with self.webpusher_error_patcher as webpusher_mock:
             self.app.post(self.channel_url, headers=self.headers, status=202)
             webpusher_mock.assert_called_with(self.subscription)
+            webpusher_mock.return_value.send.assert_called_with(
+                data=json.dumps(data), ttl=15)
 
     def test_push_notification_can_take_a_payload(self):
         with self.webpusher_error_patcher as webpusher_mock:
