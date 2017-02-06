@@ -17,4 +17,4 @@ class SubscriptionSchema(ResourceSchema):
           collection_path='/subscriptions',
           record_path='/subscriptions/{{id}}')
 class Subscription(UserResource):
-    mapping = SubscriptionSchema()
+    schema = SubscriptionSchema

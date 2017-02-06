@@ -2,7 +2,7 @@ import colander
 from cornice.validators import colander_body_validator
 from pyramid import httpexceptions
 
-from pywebpush import WebPusher
+from pywebpush import WebPusher, WebPushException
 
 from kinto.core import Service
 from kinto.core.resource.viewset import StrictSchema, SimpleSchema
@@ -41,12 +41,17 @@ def send_push_notifications(request):
 
     for registration in registrations:
         user_subscriptions, count = request.registry.storage.get_all(
-            collection_id=SUBSCRIPTION_COLLECTION_ID,
-            parent_id=registration['id'])
+                                        collection_id=SUBSCRIPTION_COLLECTION_ID,
+                                        parent_id=registration['id'])
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
-        WebPusher(subscription).send(data=request.validated.get('data'), ttl=15)
+        try:
+            push_initialize = WebPusher(subscription)
+        except WebPushException, err:
+            return httpexceptions.HTTPBadRequest(explanation=err)
+
+        push_initialize.send(data=request.validated.get('data'), ttl=15)
 
     return httpexceptions.HTTPAccepted()
 
