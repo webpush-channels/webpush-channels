@@ -46,11 +46,7 @@ def send_push_notifications(request):
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
-        try:
-            push_initialize = WebPusher(subscription)
-        except Exception as err:
-            return httpexceptions.HTTPBadRequest(explanation=err)
-
+        push_initialize = WebPusher(subscription)
         push_initialize.send(data=request.validated.get('data'), ttl=15)
 
     return httpexceptions.HTTPAccepted()

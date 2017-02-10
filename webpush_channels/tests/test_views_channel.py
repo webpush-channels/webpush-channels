@@ -1,4 +1,6 @@
 import unittest
+from copy import deepcopy
+
 import mock
 
 from kinto.core import testing
@@ -126,13 +128,9 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
                 data=MINIMALIST_PAYLOAD['data'], ttl=15)
 
     def test_invalid_encryption_keys_shows_error(self):
-        CHANGED_SUBSCRIPTION = MINIMALIST_SUBSCRIPTION
+        CHANGED_SUBSCRIPTION = deepcopy(MINIMALIST_SUBSCRIPTION)
         CHANGED_SUBSCRIPTION['data']['keys']['p256dh'] = 'y'
 
         self.app.post_json(self.subscription_url,
                            CHANGED_SUBSCRIPTION,
-                           headers=self.headers)
-        self.app.put(self.channel_registration_url, headers=self.headers, status=202)
-
-        self.app.post_json(self.channel_url, MINIMALIST_PAYLOAD,
                            headers=self.headers, status=400)
