@@ -47,14 +47,13 @@ def send_push_notifications(request):
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
+        del subscription['id']
+        del subscription['last_modified']
         data = request.validated.get('data')
-        if data is None:
-            data = "You have a message"
-        try:
-            push_initialize = WebPusher(subscription)
-            push_initialize.send(data=json.dumps(data), ttl=15)
-        except Exception as err:
-            return httpexceptions.HTTPBadRequest(explanation=err)
+        if data:
+            data = json.dumps(data)
+        push_initialize = WebPusher(subscription)
+        push_initialize.send(data=data, ttl=15)
 
     return httpexceptions.HTTPAccepted()
 
