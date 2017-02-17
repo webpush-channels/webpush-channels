@@ -15,6 +15,7 @@ Protocol is now version 0.1. See `API changelog`_.
 - Add the subscription management API (#10)
 - Add the channel registration manageent API (#12)
 - Handle empty payloads (#26)
+- Handle duplication of subscriptions (#27)
 
 
 .. _API changelog: https://webpush-channels-broadcasting/en/latest/api/
