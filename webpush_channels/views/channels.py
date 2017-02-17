@@ -1,7 +1,6 @@
 import colander
 from cornice.validators import colander_body_validator
 from pyramid import httpexceptions
-import json
 
 from pywebpush import WebPusher
 
@@ -9,6 +8,8 @@ from kinto.core import Service
 from kinto.core.resource.viewset import StrictSchema, SimpleSchema
 from kinto.core.storage.exceptions import RecordNotFoundError
 from kinto.core.authorization import PRIVATE
+
+from ..utils import canonical_json
 
 
 REGISTRATION_COLLECTION_ID = 'channel_registration'
@@ -47,12 +48,13 @@ def send_push_notifications(request):
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
+        del subscription['id']
+        del subscription['last_modified']
         data = request.validated.get('data')
-        try:
-            push_initialize = WebPusher(subscription)
-            push_initialize.send(data=json.dumps(data), ttl=15)
-        except Exception as err:
-            return httpexceptions.HTTPBadRequest(explanation=err)
+        if data:
+            data = canonical_json(data)
+        push_initialize = WebPusher(subscription)
+        push_initialize.send(data=data, ttl=15)
 
     return httpexceptions.HTTPAccepted()
 

@@ -2,12 +2,11 @@ import unittest
 from copy import deepcopy
 
 import mock
-import json
-from copy import deepcopy
 
 from kinto.core import testing
 from kinto.core.storage import exceptions as storage_exceptions
 
+from ..utils import canonical_json
 from .support import BaseWebTest, MINIMALIST_SUBSCRIPTION, MINIMALIST_PAYLOAD
 
 
@@ -113,16 +112,18 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers)
         self.subscription = resp.json['data']
+        del self.subscription['id']
+        del self.subscription['last_modified']
+        self.subscription['keys']['auth'] = self.subscription['keys']['auth'].encode('utf-8')
+        self.subscription['keys']['p256dh'] = self.subscription['keys']['p256dh'].encode('utf-8')
 
         self.webpusher_error_patcher = mock.patch('webpush_channels.views.channels.WebPusher')
 
-    def test_push_notifications_can_be_sent_to_channel_with_registration_and_subscription(self):
-        data = None
+    def test_push_notifications_can_be_sent_with_no_payload(self):
         with self.webpusher_error_patcher as webpusher_mock:
             self.app.post(self.channel_url, headers=self.headers, status=202)
             webpusher_mock.assert_called_with(self.subscription)
-            webpusher_mock.return_value.send.assert_called_with(
-                data=json.dumps(data), ttl=15)
+            webpusher_mock.return_value.send.assert_called_with(data=None, ttl=15)
 
     def test_push_notification_can_take_a_payload(self):
         with self.webpusher_error_patcher as webpusher_mock:
@@ -130,11 +131,11 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
                                headers=self.headers, status=202)
             webpusher_mock.assert_called_with(self.subscription)
             webpusher_mock.return_value.send.assert_called_with(
-                data=json.dumps(MINIMALIST_PAYLOAD['data']), ttl=15)
+                data=canonical_json(MINIMALIST_PAYLOAD['data']), ttl=15)
 
     def test_invalid_encryption_keys_shows_error(self):
         CHANGED_SUBSCRIPTION = deepcopy(MINIMALIST_SUBSCRIPTION)
-        CHANGED_SUBSCRIPTION['data']['keys']['p256dh'] = 'y'
+        CHANGED_SUBSCRIPTION['data']['keys']['p256dh'] = 'yAB'
 
         self.app.post_json(self.subscription_url,
                            CHANGED_SUBSCRIPTION,
