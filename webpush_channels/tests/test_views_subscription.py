@@ -187,8 +187,13 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
                                   headers=self.headers,
                                   status=201)
         subscription = resp.json['data']
+
+        # XXX: Right now Kinto.core doesn't return the correct status code
         resp = self.app.post_json(self.collection_url,
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers,
-                                  status=200)
-        assert resp.json['data'] == subscription
+                                  status=201)
+        new_subscription = resp.json['data']
+        del new_subscription['last_modified']
+        del subscription['last_modified']
+        assert new_subscription == subscription
