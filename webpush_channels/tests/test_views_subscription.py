@@ -96,23 +96,22 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
         response = self.app.post_json(self.collection_url,
                                       record,
                                       headers=self.headers,
-                                      status=201)
+                                      status=400)
         self.assertNotEqual('a-simple-id', response.json['data']['id'])
 
-    def test_create_a_subscription_with_an_id_uses_it(self):
+    def test_create_a_subscription_with_an_id_does_not_uses_it(self):
         new_id = '%s' % uuid.uuid4()
         record = {'data': dict(id=new_id, **MINIMALIST_SUBSCRIPTION['data'])}
-        resp = self.app.post_json(self.collection_url,
-                                  record,
-                                  headers=self.headers,
-                                  status=201)
-        self.assertEqual(resp.json['data']['id'], new_id)
+        self.app.post_json(self.collection_url,
+                           record,
+                           headers=self.headers,
+                           status=400)
 
     def test_create_a_subscription_with_an_existing_id_returns_existing(self):
         resp = self.app.post_json(self.collection_url,
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers,
-                                  status=400)
+                                  status=201)
         existing_id = resp.json['data']['id']
         record = deepcopy(MINIMALIST_SUBSCRIPTION)
         record['data']['id'] = existing_id
