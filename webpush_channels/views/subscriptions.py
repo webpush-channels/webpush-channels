@@ -32,8 +32,7 @@ class SubscriptionSchema(ResourceSchema):
         """
         record = super(SubscriptionSchema, self).deserialize(cstruct)
         given_id = record.get('id')
-        generated_id = generate_id({'endpoint': record['endpoint'],
-                                    'keys': record['keys']})
+        generated_id = generate_id(record['endpoint'])
 
         if given_id and given_id != generated_id:
             raise colander.Invalid(
@@ -56,8 +55,7 @@ class SHA256Generator(generators.Generator):
             return generate_id(None)
 
         body = self.request.validated['body']['data']
-        return generate_id({'endpoint': body['endpoint'],
-                            'keys': body['keys']})
+        return generate_id(body['endpoint'])
 
 
 @register(name='subscription',

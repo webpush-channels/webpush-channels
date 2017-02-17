@@ -52,7 +52,8 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
     def test_subscriptions_can_be_sorted_on_any_field(self):
         for i in range(3):
             record = deepcopy(MINIMALIST_SUBSCRIPTION)
-            record['data']['keys']['auth'] = 'Stout %s' % i
+            record['data']['endpoint'] = 'http://endpoint/%s' % i
+            record['data']['keys']['auth'] = 'Auths%s' % i
             self.app.post_json(self.collection_url,
                                record,
                                headers=self.headers)
@@ -61,7 +62,7 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
                                 headers=self.headers)
         names = [i['keys']['auth'] for i in response.json['data']]
         self.assertEqual(names,
-                         ['pnipzxpMvKBNYZAcxc-MAA', 'Stout 2', 'Stout 1', 'Stout 0'])
+                         ['pnipzxpMvKBNYZAcxc-MAA', 'Auths2', 'Auths1', 'Auths0'])
 
     def test_create_a_subscription_update_collection_timestamp(self):
         collection_resp = self.app.get(self.collection_url,
