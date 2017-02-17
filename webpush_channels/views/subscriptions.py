@@ -1,7 +1,6 @@
-import colander
 import hashlib
-from functools import partial
 
+import colander
 from pyramid.httpexceptions import HTTPBadRequest
 from pywebpush import WebPusher, WebPushException
 
@@ -36,9 +35,10 @@ class SubscriptionSchema(ResourceSchema):
         generated_id = generate_id({'endpoint': record['endpoint'],
                                     'keys': record['keys']})
 
-        if given_id and given_id == generated_id:
-            raise colander.Invalid(self, msg='Invalid ID: {} found while it should be {}'.format(
-                given_id, generated_id))
+        if given_id and given_id != generated_id:
+            raise colander.Invalid(
+                self, msg="Invalid ID: '{}' found while it should be '{}'".format(
+                    given_id, generated_id))
 
         return super(SubscriptionSchema, self).deserialize(cstruct)
 
@@ -52,8 +52,12 @@ class SHA256Generator(generators.Generator):
         super(SHA256Generator, self).__init__(config)
 
     def __call__(self):
-        return generate_id({'endpoint': self.request.validated.get('endpoint'),
-                            'keys': self.request.validated.get('keys')})
+        if 'body' not in self.request.validated:
+            return generate_id(None)
+
+        body = self.request.validated['body']['data']
+        return generate_id({'endpoint': body['endpoint'],
+                            'keys': body['keys']})
 
 
 @register(name='subscription',

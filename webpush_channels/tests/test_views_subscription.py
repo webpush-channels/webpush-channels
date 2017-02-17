@@ -1,8 +1,6 @@
 import json
-import re
 import unittest
 import uuid
-import hashlib
 
 from copy import deepcopy
 
@@ -80,24 +78,12 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
             decode_header(json.loads(collection_resp.headers['ETag'])))
         assert old_timestamp < new_timestamp
 
-    def test_create_a_subscription_without_id_generates_sha_on_endpoint(self):
-        resp = self.app.post_json(self.collection_url,
-                                  MINIMALIST_SUBSCRIPTION,
-                                  headers=self.headers,
-                                  status=201)
-        regexp = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-'
-                            r'[0-9a-f]{4}-[0-9a-f]{12}$')
-        sha = hashlib.sha224(json.dumps(resp.json['data']['endpoint'])).hexdigest()
-        self.assertTrue(regexp.match(resp.json['data']['id']))
-        self.assertEqual(sha, resp.json['data']['id'])
-
-    def test_invalid_id_of_subscription_replaced(self):
+    def test_invalid_id_of_subscription_should_not_be_accepted(self):
         record = {'data': dict(id='a-simple-id', **MINIMALIST_SUBSCRIPTION['data'])}
-        response = self.app.post_json(self.collection_url,
-                                      record,
-                                      headers=self.headers,
-                                      status=400)
-        self.assertNotEqual('a-simple-id', response.json['data']['id'])
+        self.app.post_json(self.collection_url,
+                           record,
+                           headers=self.headers,
+                           status=400)
 
     def test_create_a_subscription_with_an_id_does_not_uses_it(self):
         new_id = '%s' % uuid.uuid4()
@@ -119,7 +105,6 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
                                   record,
                                   headers=self.headers,
                                   status=200)
-        self.assertNotIn('stars', resp.json['data'])
 
     def test_create_a_subscription_with_existing_from_someone_else_gives_201(self):
         resp = self.app.post_json(self.collection_url,
@@ -199,9 +184,11 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
     def test_multiple_subscriptions_merged(self):
         resp = self.app.post_json(self.collection_url,
                                   MINIMALIST_SUBSCRIPTION,
-                                  headers=self.headers)
+                                  headers=self.headers,
+                                  status=201)
         subscription = resp.json['data']
-        sub = deepcopy(self.subscription)
-        subscription.pop('last_modified')
-        sub.pop('last_modified')
-        self.assertEqual(subscription, sub)
+        resp = self.app.post_json(self.collection_url,
+                                  MINIMALIST_SUBSCRIPTION,
+                                  headers=self.headers,
+                                  status=200)
+        assert resp.json['data'] == subscription
