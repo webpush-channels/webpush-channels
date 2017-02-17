@@ -46,12 +46,8 @@ def send_push_notifications(request):
             parent_id=registration['id'])
         subscriptions += user_subscriptions
 
-    print subscriptions
-
     for subscription in subscriptions:
         data = request.validated.get('data')
-        if data is None:
-            data = "You have a message"
         try:
             push_initialize = WebPusher(subscription)
             push_initialize.send(data=json.dumps(data), ttl=15)

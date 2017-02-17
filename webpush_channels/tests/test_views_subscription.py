@@ -2,6 +2,7 @@ import json
 import re
 import unittest
 import uuid
+import hashlib
 
 from copy import deepcopy
 
@@ -79,21 +80,24 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
             decode_header(json.loads(collection_resp.headers['ETag'])))
         assert old_timestamp < new_timestamp
 
-    def test_create_a_subscription_without_id_generates_a_uuid(self):
+    def test_create_a_subscription_without_id_generates_sha_on_endpoint(self):
         resp = self.app.post_json(self.collection_url,
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers,
                                   status=201)
         regexp = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-'
                             r'[0-9a-f]{4}-[0-9a-f]{12}$')
+        sha = hashlib.sha224(json.dumps(resp.json['data']['endpoint'])).hexdigest()
         self.assertTrue(regexp.match(resp.json['data']['id']))
+        self.assertEqual(sha, resp.json['data']['id'])
 
-    def test_create_a_subscription_with_an_invalid_id_raises(self):
+    def test_invalid_id_of_subscription_replaced(self):
         record = {'data': dict(id='a-simple-id', **MINIMALIST_SUBSCRIPTION['data'])}
-        self.app.post_json(self.collection_url,
-                           record,
-                           headers=self.headers,
-                           status=400)
+        response = self.app.post_json(self.collection_url,
+                                      record,
+                                      headers=self.headers,
+                                      status=201)
+        self.assertNotEqual('a-simple-id', response.json['data']['id'])
 
     def test_create_a_subscription_with_an_id_uses_it(self):
         new_id = '%s' % uuid.uuid4()
@@ -108,7 +112,7 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
         resp = self.app.post_json(self.collection_url,
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers,
-                                  status=201)
+                                  status=400)
         existing_id = resp.json['data']['id']
         record = deepcopy(MINIMALIST_SUBSCRIPTION)
         record['data']['id'] = existing_id
@@ -192,3 +196,13 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
         headers['If-None-Match'] = '*'
         self.app.put_json(self.subscription_url, MINIMALIST_SUBSCRIPTION,
                           headers=headers, status=201)
+
+    def test_multiple_subscriptions_merged(self):
+        resp = self.app.post_json(self.collection_url,
+                                  MINIMALIST_SUBSCRIPTION,
+                                  headers=self.headers)
+        subscription = resp.json['data']
+        sub = deepcopy(self.subscription)
+        subscription.pop('last_modified')
+        sub.pop('last_modified')
+        self.assertEqual(subscription, sub)
