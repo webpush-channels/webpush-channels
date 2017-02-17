@@ -16,8 +16,8 @@ CHANGELOG = read_file("CHANGELOG.rst")
 REQUIREMENTS = [
     'waitress',
     'kinto[postgresql]',
-    'requests',
-    'pywebpush'
+    'requests<2.13.0',
+    'pywebpush>=0.7.0'
 ]
 
 ENTRY_POINTS = {
