@@ -2,14 +2,15 @@ from kinto.core import testing
 from webpush_channels import main as webpush_main
 from webpush_channels import DEFAULT_SETTINGS
 
+P256DH = "BEVoH6cOlNPuvYR0aVJo4GVv84nbymzpXxNff7hpKYjVIFcuIEtqiLtIe4rLOXF_A2w3KWRJoCYJEjUedrXcNpc"
 
 MINIMALIST_SUBSCRIPTION = {
     "data": {
+        "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNoTAeA9vv-_zHx79",
         "keys": {
-            "auth": "authToken",
-            "p256dh": "encryptionKey"
-        },
-        "endpoint": "https://push.mozilla.com"
+            "auth": "pnipzxpMvKBNYZAcxc-MAA",
+            "p256dh": P256DH
+        }
     }
 }
 

@@ -63,7 +63,7 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
                                 headers=self.headers)
         names = [i['keys']['auth'] for i in response.json['data']]
         self.assertEqual(names,
-                         ['authToken', 'Stout 2', 'Stout 1', 'Stout 0'])
+                         ['pnipzxpMvKBNYZAcxc-MAA', 'Stout 2', 'Stout 1', 'Stout 0'])
 
     def test_create_a_subscription_update_collection_timestamp(self):
         collection_resp = self.app.get(self.collection_url,

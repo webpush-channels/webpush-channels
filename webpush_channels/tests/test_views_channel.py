@@ -1,4 +1,6 @@
 import unittest
+from copy import deepcopy
+
 import mock
 import json
 from copy import deepcopy
@@ -136,8 +138,4 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
 
         self.app.post_json(self.subscription_url,
                            CHANGED_SUBSCRIPTION,
-                           headers=self.headers)
-        self.app.put(self.channel_registration_url, headers=self.headers, status=202)
-
-        self.app.post_json(self.channel_url, MINIMALIST_PAYLOAD,
                            headers=self.headers, status=400)

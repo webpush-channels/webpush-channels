@@ -43,3 +43,13 @@ class Subscription(UserResource):
         super(Subscription, self).__init__(request, context)
         if 'id' not in self.request.json['data']:
             self.model.id_generator = SHAendpoint(self, self.request)
+
+    def process_record(self, new, old=None):
+        new = super(Subscription, self).process_record(new, old)
+        try:
+            WebPusher(new)
+        except TypeError as e:
+            raise http_error(HTTPBadRequest(),
+                             errno=ERRORS.INVALID_PARAMETERS,
+                             message='Invalid subscription: %s' % e)
+        return new
