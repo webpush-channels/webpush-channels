@@ -1,7 +1,7 @@
 import colander
 
 from pyramid.httpexceptions import HTTPBadRequest
-from pywebpush import WebPusher
+from pywebpush import WebPusher, WebPushException
 
 from kinto.core.errors import http_error, ERRORS
 from kinto.core.resource import register, UserResource
@@ -28,7 +28,7 @@ class Subscription(UserResource):
         new = super(Subscription, self).process_record(new, old)
         try:
             WebPusher(new)
-        except TypeError as e:
+        except WebPushException as e:
             raise http_error(HTTPBadRequest(),
                              errno=ERRORS.INVALID_PARAMETERS,
                              message='Invalid subscription: %s' % e)

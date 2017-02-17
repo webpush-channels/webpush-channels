@@ -9,6 +9,8 @@ from kinto.core.resource.viewset import StrictSchema, SimpleSchema
 from kinto.core.storage.exceptions import RecordNotFoundError
 from kinto.core.authorization import PRIVATE
 
+from ..utils import canonical_json
+
 
 REGISTRATION_COLLECTION_ID = 'channel_registration'
 SUBSCRIPTION_COLLECTION_ID = 'subscription'
@@ -46,8 +48,13 @@ def send_push_notifications(request):
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
+        del subscription['id']
+        del subscription['last_modified']
+        data = request.validated.get('data')
+        if data:
+            data = canonical_json(data)
         push_initialize = WebPusher(subscription)
-        push_initialize.send(data=request.validated.get('data'), ttl=15)
+        push_initialize.send(data=data, ttl=15)
 
     return httpexceptions.HTTPAccepted()
 
