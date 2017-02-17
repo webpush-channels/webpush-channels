@@ -1,5 +1,4 @@
 import json
-import re
 import unittest
 import uuid
 
@@ -53,7 +52,8 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
     def test_subscriptions_can_be_sorted_on_any_field(self):
         for i in range(3):
             record = deepcopy(MINIMALIST_SUBSCRIPTION)
-            record['data']['keys']['auth'] = 'Stout %s' % i
+            record['data']['endpoint'] = 'http://endpoint/%s' % i
+            record['data']['keys']['auth'] = 'Auths%s' % i
             self.app.post_json(self.collection_url,
                                record,
                                headers=self.headers)
@@ -62,7 +62,7 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
                                 headers=self.headers)
         names = [i['keys']['auth'] for i in response.json['data']]
         self.assertEqual(names,
-                         ['pnipzxpMvKBNYZAcxc-MAA', 'Stout 2', 'Stout 1', 'Stout 0'])
+                         ['pnipzxpMvKBNYZAcxc-MAA', 'Auths2', 'Auths1', 'Auths0'])
 
     def test_create_a_subscription_update_collection_timestamp(self):
         collection_resp = self.app.get(self.collection_url,
@@ -79,30 +79,20 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
             decode_header(json.loads(collection_resp.headers['ETag'])))
         assert old_timestamp < new_timestamp
 
-    def test_create_a_subscription_without_id_generates_a_uuid(self):
-        resp = self.app.post_json(self.collection_url,
-                                  MINIMALIST_SUBSCRIPTION,
-                                  headers=self.headers,
-                                  status=201)
-        regexp = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-'
-                            r'[0-9a-f]{4}-[0-9a-f]{12}$')
-        self.assertTrue(regexp.match(resp.json['data']['id']))
-
-    def test_create_a_subscription_with_an_invalid_id_raises(self):
+    def test_invalid_id_of_subscription_should_not_be_accepted(self):
         record = {'data': dict(id='a-simple-id', **MINIMALIST_SUBSCRIPTION['data'])}
         self.app.post_json(self.collection_url,
                            record,
                            headers=self.headers,
                            status=400)
 
-    def test_create_a_subscription_with_an_id_uses_it(self):
+    def test_create_a_subscription_with_an_id_does_not_uses_it(self):
         new_id = '%s' % uuid.uuid4()
         record = {'data': dict(id=new_id, **MINIMALIST_SUBSCRIPTION['data'])}
-        resp = self.app.post_json(self.collection_url,
-                                  record,
-                                  headers=self.headers,
-                                  status=201)
-        self.assertEqual(resp.json['data']['id'], new_id)
+        self.app.post_json(self.collection_url,
+                           record,
+                           headers=self.headers,
+                           status=400)
 
     def test_create_a_subscription_with_an_existing_id_returns_existing(self):
         resp = self.app.post_json(self.collection_url,
@@ -116,7 +106,6 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
                                   record,
                                   headers=self.headers,
                                   status=200)
-        self.assertNotIn('stars', resp.json['data'])
 
     def test_create_a_subscription_with_existing_from_someone_else_gives_201(self):
         resp = self.app.post_json(self.collection_url,
@@ -192,3 +181,20 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
         headers['If-None-Match'] = '*'
         self.app.put_json(self.subscription_url, MINIMALIST_SUBSCRIPTION,
                           headers=headers, status=201)
+
+    def test_multiple_subscriptions_merged(self):
+        resp = self.app.post_json(self.collection_url,
+                                  MINIMALIST_SUBSCRIPTION,
+                                  headers=self.headers,
+                                  status=201)
+        subscription = resp.json['data']
+
+        # XXX: Right now Kinto.core doesn't return the correct status code
+        resp = self.app.post_json(self.collection_url,
+                                  MINIMALIST_SUBSCRIPTION,
+                                  headers=self.headers,
+                                  status=201)
+        new_subscription = resp.json['data']
+        del new_subscription['last_modified']
+        del subscription['last_modified']
+        assert new_subscription == subscription
