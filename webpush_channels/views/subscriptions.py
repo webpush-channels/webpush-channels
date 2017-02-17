@@ -12,7 +12,7 @@ from ..utils import canonical_json
 
 
 def generate_id(subscription):
-    return hashlib.sha256(canonical_json(subscription)).hexdigest()
+    return hashlib.sha256(canonical_json(subscription).encode('utf-8')).hexdigest()
 
 
 class KeySchema(colander.MappingSchema):
