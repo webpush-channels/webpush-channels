@@ -1,5 +1,6 @@
 import unittest
 from copy import deepcopy
+import json
 
 import mock
 
@@ -140,3 +141,32 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
         self.app.post_json(self.subscription_url,
                            CHANGED_SUBSCRIPTION,
                            headers=self.headers, status=400)
+
+
+class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
+
+    channel_url = '/channels/food'
+    channel_registration_url = '/channels/food/registration'
+    subscription_url = '/subscriptions'
+
+    def setUp(self):
+        super(AllResponsesAreJSONTest, self).setUp()
+        self.app.post_json(self.subscription_url,
+                                  MINIMALIST_SUBSCRIPTION,
+                                  headers=self.headers)
+        self.resp = self.app.put(self.channel_registration_url, headers=self.headers, status=202)
+
+    def test_put_request_response_is_json(self):
+        self.assert_(json.loads(self.resp.body))
+
+    def test_delete_request_response_is_json(self):
+        resp = self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
+        self.assert_(json.loads(resp.body))
+
+    def test_get_request_response_is_json(self):
+        resp = self.app.get(self.channel_url, headers=self.headers, status=200)
+        self.assert_(json.loads(resp.body))
+
+    def test_post_request_response_is_json(self):
+        resp = self.app.post(self.channel_url, headers=self.headers, status=202)
+        self.assert_(json.loads(resp.body))

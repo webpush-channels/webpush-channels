@@ -202,41 +202,41 @@ class SubscriptionsViewTest(BaseWebTest, unittest.TestCase):
 
 class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
-    collection_url = '/subscriptions'
+    subscription_url = '/subscriptions'
 
     def test_post_request_response_is_json(self):
-        resp = self.app.post_json(self.collection_url,
+        resp = self.app.post_json(self.subscription_url,
                                   MINIMALIST_SUBSCRIPTION,
                                   headers=self.headers,
                                   status=201)
         self.assert_(json.loads(resp.body))
 
     def test_get_request_response_is_json(self):
-        self.app.post_json(self.collection_url,
+        self.app.post_json(self.subscription_url,
                            MINIMALIST_SUBSCRIPTION,
                            headers=self.headers,
                            status=201)
-        resp = self.app.get(self.collection_url,
+        resp = self.app.get(self.subscription_url,
                             headers=self.headers,
                             status=200)
         self.assert_(json.loads(resp.body))
 
     def test_delete_request_response_is_json(self):
-        self.app.post_json(self.collection_url,
+        self.app.post_json(self.subscription_url,
                            MINIMALIST_SUBSCRIPTION,
                            headers=self.headers,
                            status=201)
-        resp = self.app.delete(self.collection_url,
+        resp = self.app.delete(self.subscription_url,
                                headers=self.headers,
                                status=200)
         self.assert_(json.loads(resp.body))
 
     def test_delete_specific_subscription_request_response_is_json(self):
-        subscription = self.app.post_json(self.collection_url,
+        subscription = self.app.post_json(self.subscription_url,
                                           MINIMALIST_SUBSCRIPTION,
                                           headers=self.headers,
                                           status=201)
-        resp = self.app.delete(self.collection_url+'/'+subscription.json['data']['id'],
+        resp = self.app.delete(self.subscription_url+'/'+subscription.json['data']['id'],
                                headers=self.headers,
                                status=200)
         self.assert_(json.loads(resp.body))
