@@ -157,16 +157,20 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
         self.resp = self.app.put(self.channel_registration_url, headers=self.headers, status=202)
 
     def test_put_request_response_is_json(self):
-        self.assert_(json.loads(self.resp.body))
+        self.assertEquals(self.resp.json, {})
+        self.assertEquals(self.resp.headers['Content-Type'], 'application/json')
 
     def test_delete_request_response_is_json(self):
         resp = self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
-        self.assert_(json.loads(resp.body))
+        self.assertEquals(resp.json, {})
+        self.assertEquals(resp.headers['Content-Type'], 'application/json')
 
     def test_get_request_response_is_json(self):
         resp = self.app.get(self.channel_url, headers=self.headers, status=200)
-        self.assert_(json.loads(resp.body))
+        assert json.loads(resp.body)
+        self.assertEquals(resp.headers['Content-Type'], 'application/json')
 
     def test_post_request_response_is_json(self):
         resp = self.app.post(self.channel_url, headers=self.headers, status=202)
-        self.assert_(json.loads(resp.body))
+        self.assertEquals(resp.json, {})
+        self.assertEquals(resp.headers['Content-Type'], 'application/json')

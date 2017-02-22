@@ -204,39 +204,33 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
     subscription_url = '/subscriptions'
 
+    def setUp(self):
+        self.resp = self.app.post_json(self.subscription_url,
+                                       MINIMALIST_SUBSCRIPTION,
+                                       headers=self.headers,
+                                       status=201)
+
     def test_post_request_response_is_json(self):
-        resp = self.app.post_json(self.subscription_url,
-                                  MINIMALIST_SUBSCRIPTION,
-                                  headers=self.headers,
-                                  status=201)
-        self.assert_(json.loads(resp.body))
+        assert json.loads(self.resp.body)
+        self.assertEquals(self.resp.headers['Content-Type'], 'application/json')
 
     def test_get_request_response_is_json(self):
-        self.app.post_json(self.subscription_url,
-                           MINIMALIST_SUBSCRIPTION,
-                           headers=self.headers,
-                           status=201)
         resp = self.app.get(self.subscription_url,
                             headers=self.headers,
                             status=200)
-        self.assert_(json.loads(resp.body))
+        assert json.loads(resp.body)
+        self.assertEquals(resp.headers['Content-Type'], 'application/json')
 
     def test_delete_request_response_is_json(self):
-        self.app.post_json(self.subscription_url,
-                           MINIMALIST_SUBSCRIPTION,
-                           headers=self.headers,
-                           status=201)
         resp = self.app.delete(self.subscription_url,
                                headers=self.headers,
                                status=200)
-        self.assert_(json.loads(resp.body))
+        assert json.loads(resp.body)
+        self.assertEquals(resp.headers['Content-Type'], 'application/json')
 
     def test_delete_specific_subscription_request_response_is_json(self):
-        subscription = self.app.post_json(self.subscription_url,
-                                          MINIMALIST_SUBSCRIPTION,
-                                          headers=self.headers,
-                                          status=201)
-        resp = self.app.delete(self.subscription_url+'/'+subscription.json['data']['id'],
+        resp = self.app.delete(self.subscription_url+'/'+self.resp.json['data']['id'],
                                headers=self.headers,
                                status=200)
-        self.assert_(json.loads(resp.body))
+        assert json.loads(resp.body)
+        self.assertEquals(resp.headers['Content-Type'], 'application/json')
