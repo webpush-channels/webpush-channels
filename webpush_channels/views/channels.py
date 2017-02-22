@@ -56,7 +56,8 @@ def send_push_notifications(request):
         push_initialize = WebPusher(subscription)
         push_initialize.send(data=data, ttl=15)
 
-    return httpexceptions.HTTPAccepted()
+    request.response.status = 202
+    return {}
 
 
 @channel.get(permission=PRIVATE)
@@ -91,7 +92,8 @@ def add_user_registration(request):
         object_id=request.prefixed_userid,
         record={})
 
-    return httpexceptions.HTTPAccepted()
+    request.response.status = 202
+    return {}
 
 
 @channel_registration.delete(permission=PRIVATE)
@@ -108,4 +110,5 @@ def remove_user_registration(request):
     except RecordNotFoundError:
         # If the record has already been removed that's fine.
         pass
-    return httpexceptions.HTTPAccepted()
+    request.response.status = 202
+    return {}
