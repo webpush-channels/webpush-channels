@@ -5,6 +5,7 @@ import json
 import mock
 
 from kinto.core import testing
+from kinto.core.errors import ERRORS
 from kinto.core.storage import exceptions as storage_exceptions
 
 from ..utils import canonical_json
@@ -143,7 +144,7 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
                            headers=self.headers, status=400)
 
 
-class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
+class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest.TestCase):
 
     channel_url = '/channels/food'
     invalid_channel_url = '/channels/blah'
@@ -179,13 +180,13 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
     def test_put_request_on_invalid_channel_registration_url_response_is_json(self):
         resp = self.app.put(self.channel_url, headers=self.headers, status=405)
-        assert self.resp.body == '{}'
-        assert self.resp.headers['Content-Type'] == 'application/json'
+        self.assertFormattedError(resp, 405, ERRORS.METHOD_NOT_ALLOWED, "Method Not Allowed",
+                                  "Method not allowed on this endpoint.")
 
     def test_delete_request_on_invalid_registration_url_response_is_json(self):
         resp = self.app.delete(self.channel_url, headers=self.headers, status=405)
-        assert json.loads(resp.body)
-        assert resp.headers['Content-Type'] == 'application/json'
+        self.assertFormattedError(resp, 405, ERRORS.METHOD_NOT_ALLOWED, "Method Not Allowed",
+                                  "Method not allowed on this endpoint.")
 
     def test_delete_request_on_non_existent_registration_url_response_is_json(self):
         resp = self.app.delete(self.invalid_channel_registration_url,
@@ -206,7 +207,7 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
     def test_post_request_to_invalid_channel_response_is_json(self):
         resp = self.app.post(self.invalid_channel_registration_url,
-                              headers=self.headers,
-                              status=405)
-        assert json.loads(resp.body)
-        assert resp.headers['Content-Type'] == 'application/json'
+                             headers=self.headers,
+                             status=405)
+        self.assertFormattedError(resp, 405, ERRORS.METHOD_NOT_ALLOWED, "Method Not Allowed",
+                                  "Method not allowed on this endpoint.")
