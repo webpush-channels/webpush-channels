@@ -152,6 +152,11 @@ class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest
     invalid_channel_registration_url = '/channels/blah/registration'
     subscription_url = '/subscriptions'
 
+    def assertJSONAcceptedResponse(self, response):
+        assert response.headers['Content-Type'] == 'application/json'
+        assert response.json['code'] == 202
+        assert response.json['message'] == 'Accepted'
+
     def setUp(self):
         super(AllResponsesAreJSONTest, self).setUp()
         self.app.post_json(self.subscription_url,
@@ -160,15 +165,11 @@ class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest
         self.resp = self.app.put(self.channel_registration_url, headers=self.headers, status=202)
 
     def test_put_request_response_is_json(self):
-        assert self.resp.headers['Content-Type'] == 'application/json'
-        assert self.resp.json['code'] == 202
-        assert self.resp.json['message'] == 'Accepted'
+        self.assertJSONAcceptedResponse(self.resp)
 
     def test_delete_request_response_is_json(self):
         resp = self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
-        assert resp.headers['Content-Type'] == 'application/json'
-        assert resp.json['code'] == 202
-        assert resp.json['message'] == 'Accepted'
+        self.assertJSONAcceptedResponse(resp)
 
     def test_get_request_response_is_json(self):
         resp = self.app.get(self.channel_url, headers=self.headers, status=200)
@@ -177,9 +178,7 @@ class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest
 
     def test_post_request_response_is_json(self):
         resp = self.app.post(self.channel_url, headers=self.headers, status=202)
-        assert resp.headers['Content-Type'] == 'application/json'
-        assert resp.json['code'] == 202
-        assert resp.json['message'] == 'Accepted'
+        self.assertJSONAcceptedResponse(resp)
 
     def test_put_request_on_invalid_channel_registration_url_response_is_json(self):
         resp = self.app.put(self.channel_url, headers=self.headers, status=405)
@@ -193,11 +192,8 @@ class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest
 
     def test_delete_request_on_non_existent_registration_url_response_is_json(self):
         resp = self.app.delete(self.invalid_channel_registration_url,
-                               headers=self.headers,
-                               status=202)
-        assert resp.headers['Content-Type'] == 'application/json'
-        assert resp.json['code'] == 202
-        assert resp.json['message'] == 'Accepted'
+                               headers=self.headers, status=202)
+        self.assertJSONAcceptedResponse(resp)
 
     def test_get_request_on_non_existent_channel_url_response_is_json(self):
         resp = self.app.get(self.invalid_channel_url, headers=self.headers, status=403)
@@ -206,9 +202,7 @@ class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest
 
     def test_post_request_to_non_existent_channel_response_is_json(self):
         resp = self.app.post(self.invalid_channel_url, headers=self.headers, status=202)
-        assert resp.headers['Content-Type'] == 'application/json'
-        assert resp.json['code'] == 202
-        assert resp.json['message'] == 'Accepted'
+        self.assertJSONAcceptedResponse(resp)
 
     def test_post_request_to_invalid_channel_response_is_json(self):
         resp = self.app.post(self.invalid_channel_registration_url,
