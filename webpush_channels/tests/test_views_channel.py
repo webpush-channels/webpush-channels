@@ -152,8 +152,8 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
     def setUp(self):
         super(AllResponsesAreJSONTest, self).setUp()
         self.app.post_json(self.subscription_url,
-                                  MINIMALIST_SUBSCRIPTION,
-                                  headers=self.headers)
+                           MINIMALIST_SUBSCRIPTION,
+                           headers=self.headers)
         self.resp = self.app.put(self.channel_registration_url, headers=self.headers, status=202)
 
     def test_put_request_response_is_json(self):
