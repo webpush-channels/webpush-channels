@@ -5,6 +5,7 @@ import json
 import mock
 
 from kinto.core import testing
+from kinto.core.errors import ERRORS
 from kinto.core.storage import exceptions as storage_exceptions
 
 from ..utils import canonical_json
@@ -143,11 +144,18 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
                            headers=self.headers, status=400)
 
 
-class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
+class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest.TestCase):
 
     channel_url = '/channels/food'
+    invalid_channel_url = '/channels/blah'
     channel_registration_url = '/channels/food/registration'
+    invalid_channel_registration_url = '/channels/blah/registration'
     subscription_url = '/subscriptions'
+
+    def assertJSONAcceptedResponse(self, response):
+        assert response.headers['Content-Type'] == 'application/json'
+        assert response.json['code'] == 202
+        assert response.json['message'] == 'Accepted'
 
     def setUp(self):
         super(AllResponsesAreJSONTest, self).setUp()
@@ -157,13 +165,11 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
         self.resp = self.app.put(self.channel_registration_url, headers=self.headers, status=202)
 
     def test_put_request_response_is_json(self):
-        assert self.resp.body == b'{}'
-        assert self.resp.headers['Content-Type'] == 'application/json'
+        self.assertJSONAcceptedResponse(self.resp)
 
     def test_delete_request_response_is_json(self):
         resp = self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
-        assert resp.body == b'{}'
-        assert resp.headers['Content-Type'] == 'application/json'
+        self.assertJSONAcceptedResponse(resp)
 
     def test_get_request_response_is_json(self):
         resp = self.app.get(self.channel_url, headers=self.headers, status=200)
@@ -172,5 +178,35 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
     def test_post_request_response_is_json(self):
         resp = self.app.post(self.channel_url, headers=self.headers, status=202)
-        assert resp.body == b'{}'
-        assert resp.headers['Content-Type'] == 'application/json'
+        self.assertJSONAcceptedResponse(resp)
+
+    def test_put_request_on_invalid_channel_registration_url_response_is_json(self):
+        resp = self.app.put(self.channel_url, headers=self.headers, status=405)
+        self.assertFormattedError(resp, 405, ERRORS.METHOD_NOT_ALLOWED, "Method Not Allowed",
+                                  "Method not allowed on this endpoint.")
+
+    def test_delete_request_on_invalid_registration_url_response_is_json(self):
+        resp = self.app.delete(self.channel_url, headers=self.headers, status=405)
+        self.assertFormattedError(resp, 405, ERRORS.METHOD_NOT_ALLOWED, "Method Not Allowed",
+                                  "Method not allowed on this endpoint.")
+
+    def test_delete_request_on_non_existent_registration_url_response_is_json(self):
+        resp = self.app.delete(self.invalid_channel_registration_url,
+                               headers=self.headers, status=202)
+        self.assertJSONAcceptedResponse(resp)
+
+    def test_get_request_on_non_existent_channel_url_response_is_json(self):
+        resp = self.app.get(self.invalid_channel_url, headers=self.headers, status=403)
+        self.assertFormattedError(resp, 403, ERRORS.FORBIDDEN, "Forbidden",
+                                  "This user cannot access this resource.")
+
+    def test_post_request_to_non_existent_channel_response_is_json(self):
+        resp = self.app.post(self.invalid_channel_url, headers=self.headers, status=202)
+        self.assertJSONAcceptedResponse(resp)
+
+    def test_post_request_to_invalid_channel_response_is_json(self):
+        resp = self.app.post(self.invalid_channel_registration_url,
+                             headers=self.headers,
+                             status=405)
+        self.assertFormattedError(resp, 405, ERRORS.METHOD_NOT_ALLOWED, "Method Not Allowed",
+                                  "Method not allowed on this endpoint.")
