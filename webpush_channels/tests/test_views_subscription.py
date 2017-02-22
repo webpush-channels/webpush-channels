@@ -212,25 +212,25 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
     def test_post_request_response_is_json(self):
         assert json.loads(self.resp.body)
-        self.assertEquals(self.resp.headers['Content-Type'], 'application/json')
+        assert self.resp.headers['Content-Type'] == 'application/json'
 
     def test_get_request_response_is_json(self):
         resp = self.app.get(self.subscription_url,
                             headers=self.headers,
                             status=200)
         assert json.loads(resp.body)
-        self.assertEquals(resp.headers['Content-Type'], 'application/json')
+        assert resp.headers['Content-Type'] == 'application/json'
 
     def test_delete_request_response_is_json(self):
         resp = self.app.delete(self.subscription_url,
                                headers=self.headers,
                                status=200)
         assert json.loads(resp.body)
-        self.assertEquals(resp.headers['Content-Type'], 'application/json')
+        assert resp.headers['Content-Type'] == 'application/json'
 
     def test_delete_specific_subscription_request_response_is_json(self):
         resp = self.app.delete(self.subscription_url+'/'+self.resp.json['data']['id'],
                                headers=self.headers,
                                status=200)
         assert json.loads(resp.body)
-        self.assertEquals(resp.headers['Content-Type'], 'application/json')
+        assert resp.headers['Content-Type'] == 'application/json'

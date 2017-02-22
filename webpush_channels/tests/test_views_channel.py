@@ -157,20 +157,20 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
         self.resp = self.app.put(self.channel_registration_url, headers=self.headers, status=202)
 
     def test_put_request_response_is_json(self):
-        self.assertEquals(self.resp.json, {})
-        self.assertEquals(self.resp.headers['Content-Type'], 'application/json')
+        assert self.resp.json == {}
+        assert self.resp.headers['Content-Type'] == 'application/json'
 
     def test_delete_request_response_is_json(self):
         resp = self.app.delete(self.channel_registration_url, headers=self.headers, status=202)
-        self.assertEquals(resp.json, {})
-        self.assertEquals(resp.headers['Content-Type'], 'application/json')
+        assert resp.json == {}
+        assert resp.headers['Content-Type'] == 'application/json'
 
     def test_get_request_response_is_json(self):
         resp = self.app.get(self.channel_url, headers=self.headers, status=200)
         assert json.loads(resp.body)
-        self.assertEquals(resp.headers['Content-Type'], 'application/json')
+        assert resp.headers['Content-Type'] == 'application/json'
 
     def test_post_request_response_is_json(self):
         resp = self.app.post(self.channel_url, headers=self.headers, status=202)
-        self.assertEquals(resp.json, {})
-        self.assertEquals(resp.headers['Content-Type'], 'application/json')
+        assert resp.json == {}
+        assert resp.headers['Content-Type'] == 'application/json'

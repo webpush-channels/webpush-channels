@@ -74,7 +74,6 @@ def retrieve_channel_information(request):
     if not user_registered:
         return httpexceptions.HTTPForbidden()
 
-    request.response.status = 200
     return {"data": {
         "registrations": count,
         "push": 0
