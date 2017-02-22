@@ -195,18 +195,20 @@ class AllResponsesAreJSONTest(testing.FormattedErrorMixin, BaseWebTest, unittest
         resp = self.app.delete(self.invalid_channel_registration_url,
                                headers=self.headers,
                                status=202)
-        assert resp.body == '{}'
         assert resp.headers['Content-Type'] == 'application/json'
+        assert resp.json['code'] == 202
+        assert resp.json['message'] == 'Accepted'
 
     def test_get_request_on_non_existent_channel_url_response_is_json(self):
         resp = self.app.get(self.invalid_channel_url, headers=self.headers, status=403)
-        assert resp.body == '{}'
-        assert resp.headers['Content-Type'] == 'application/json'
+        self.assertFormattedError(resp, 403, ERRORS.FORBIDDEN, "Forbidden",
+                                  "This user cannot access this resource.")
 
     def test_post_request_to_non_existent_channel_response_is_json(self):
         resp = self.app.post(self.invalid_channel_url, headers=self.headers, status=202)
-        assert resp.body == '{}'
         assert resp.headers['Content-Type'] == 'application/json'
+        assert resp.json['code'] == 202
+        assert resp.json['message'] == 'Accepted'
 
     def test_post_request_to_invalid_channel_response_is_json(self):
         resp = self.app.post(self.invalid_channel_registration_url,
