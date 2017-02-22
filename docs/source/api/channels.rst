@@ -49,6 +49,9 @@ Register to a channel
         Date: Thu, 18 Jun 2015 17:02:23 GMT
         Server: waitress
 
+
+        {"code": 202, "message": "Accepted"}
+
 .. _channel-registration-delete:
 
 Unsubscribing from a channel
@@ -85,6 +88,9 @@ Unsubscribing from a channel
         Access-Control-Expose-Headers: Backoff, Retry-After, Alert
         Date: Thu, 18 Jun 2015 17:02:23 GMT
         Server: waitress
+
+
+        {"code": 202, "message": "Accepted"}
 
 .. _channel-get:
 
@@ -127,8 +133,8 @@ Getting channels informations
         {
             "data": {
                 "id": "formbuilder-collection-write",
-				"registrations": 1,
-				"push": 0
+                "registrations": 1,
+                "push": 0
             }
         }
 
@@ -187,6 +193,9 @@ the channel.
         Access-Control-Expose-Headers: Backoff, Retry-After, Alert
         Date: Thu, 18 Jun 2015 17:02:23 GMT
         Server: waitress
+
+
+        {"code": 202, "message": "Accepted"}
 
 The ``data`` payload will be encrypted for each subscriptions and sent
 authenticated through the endpoint.

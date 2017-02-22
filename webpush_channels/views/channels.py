@@ -57,7 +57,7 @@ def send_push_notifications(request):
         push_initialize.send(data=data, ttl=15)
 
     request.response.status = 202
-    return {}
+    return {"code": 202, "message": "Accepted"}
 
 
 @channel.get(permission=PRIVATE)
@@ -94,7 +94,7 @@ def add_user_registration(request):
         record={})
 
     request.response.status = 202
-    return {}
+    return {"code": 202, "message": "Accepted"}
 
 
 @channel_registration.delete(permission=PRIVATE)
@@ -112,4 +112,4 @@ def remove_user_registration(request):
         # If the record has already been removed that's fine.
         pass
     request.response.status = 202
-    return {}
+    return {"code": 202, "message": "Accepted"}
