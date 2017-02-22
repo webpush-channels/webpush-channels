@@ -234,3 +234,34 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
                                status=200)
         assert json.loads(resp.body)
         assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_get_request_for_unknown_subscription_url_response_is_json(self):
+        resp = self.app.get('/foo',
+                            headers=self.headers,
+                            status=404)
+        assert json.loads(resp.body)
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_post_invalid_subscription_response_is_json(self):
+        INVALID_SUBSCRIPTION = deepcopy(MINIMALIST_SUBSCRIPTION)
+        INVALID_SUBSCRIPTION['keys'] = ''
+        resp = self.app.post_json(self.subscription_url,
+                                  INVALID_SUBSCRIPTION,
+                                  headers=self.headers,
+                                  status=400)
+        assert json.loads(resp.body)
+        assert resp.headers['Content-Type'] == 'applicatigon/json'
+
+    def test_delete_request_for_unknown_subscription_url_response_is_json(self):
+        resp = self.app.delete('/foo',
+                               headers=self.headers,
+                               status=404)
+        assert json.loads(resp.body)
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_delete_nonexistent_subscription_request_response_is_json(self):
+        resp = self.app.delete(self.subscription_url+'/'+'blah',
+                               headers=self.headers,
+                               status=404)
+        assert json.loads(resp.body)
+        assert resp.headers['Content-Type'] == 'application/json'
