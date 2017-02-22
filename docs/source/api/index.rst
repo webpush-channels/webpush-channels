@@ -34,7 +34,7 @@ Cheatsheet
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | **Channels**                                                                                                                                              |
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| `PUT`    | :ref:`/channels/(channel_id)/registration <channel-registration-put>`        | :ref:`Subscribe to a channel <channel-registration-put>`	    |
+| `PUT`    | :ref:`/channels/(channel_id)/registration <channel-registration-put>`        | :ref:`Subscribe to a channel <channel-registration-put>`        |
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | `DELETE` | :ref:`/channels/(channel_id)/registration <channel-registration-delete>`     | :ref:`Unsubscribe from a channel <channel-registration-delete>` |
 +----------+------------------------------------------------------------------------------+-----------------------------------------------------------------+

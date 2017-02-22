@@ -14,7 +14,7 @@ requesting a Push subscription on the browser.
 .. code-block:: json
 
     {
-    	"data": {
+        "data": {
             "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
             "keys": {
                 "auth": "pnipzxpMvKBNYZAcxc-MAA",
@@ -56,7 +56,7 @@ Add a new user subscription
         User-Agent: HTTPie/0.9.2
 
         {
-        	"data": {
+            "data": {
                 "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
                 "keys": {
                     "auth": "pnipzxpMvKBNYZAcxc-MAA",
@@ -77,7 +77,7 @@ Add a new user subscription
         Server: waitress
 
         {
-        	"data": {
+            "data": {
                 "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
                 "keys": {
                     "auth": "pnipzxpMvKBNYZAcxc-MAA",
@@ -132,7 +132,7 @@ Retrieving user's subscriptions
 
         {
             "data": [
-			    {
+                {
                     "endpoint": "https://updates.push.services.mozilla.com/wpush/v1/gAAAAABYZNChoTLTAeA9vv-_zeqGuZiM4ESpiV7oiT5XtrN8aI01fiCQ7-_hC8lhqXanjUEWp5MFRoq35QmzdplCkRhp5nRgjwneGCGO8WXYH9psZaD_xInKLWm7K8-tzFAp-vRNHx79",
                     "keys": {
                         "auth": "pnipzxpMvKBNYZAcxc-MAA",
