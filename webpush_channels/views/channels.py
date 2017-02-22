@@ -72,7 +72,8 @@ def retrieve_channel_information(request):
     user_registered = [r for r in registrations if r['id'] == request.prefixed_userid]
 
     if not user_registered:
-        return httpexceptions.HTTPForbidden()
+        request.response.status = 403
+        return {}
 
     return {"data": {
         "registrations": count,

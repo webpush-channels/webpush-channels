@@ -250,7 +250,7 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
                                   headers=self.headers,
                                   status=400)
         assert json.loads(resp.body)
-        assert resp.headers['Content-Type'] == 'applicatigon/json'
+        assert resp.headers['Content-Type'] == 'application/json'
 
     def test_delete_request_for_unknown_subscription_url_response_is_json(self):
         resp = self.app.delete('/foo',

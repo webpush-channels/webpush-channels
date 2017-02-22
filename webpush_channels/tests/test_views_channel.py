@@ -146,7 +146,9 @@ class RegisteredAndSubscribedChannelsTest(BaseWebTest, unittest.TestCase):
 class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
 
     channel_url = '/channels/food'
+    invalid_channel_url = '/channels/blah'
     channel_registration_url = '/channels/food/registration'
+    invalid_channel_registration_url = '/channels/blah/registration'
     subscription_url = '/subscriptions'
 
     def setUp(self):
@@ -173,4 +175,38 @@ class AllResponsesAreJSONTest(BaseWebTest, unittest.TestCase):
     def test_post_request_response_is_json(self):
         resp = self.app.post(self.channel_url, headers=self.headers, status=202)
         assert resp.body == '{}'
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_put_request_on_invalid_channel_registration_url_response_is_json(self):
+        resp = self.app.put(self.channel_url, headers=self.headers, status=405)
+        assert self.resp.body == '{}'
+        assert self.resp.headers['Content-Type'] == 'application/json'
+
+    def test_delete_request_on_invalid_registration_url_response_is_json(self):
+        resp = self.app.delete(self.channel_url, headers=self.headers, status=405)
+        assert json.loads(resp.body)
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_delete_request_on_non_existent_registration_url_response_is_json(self):
+        resp = self.app.delete(self.invalid_channel_registration_url,
+                               headers=self.headers,
+                               status=202)
+        assert resp.body == '{}'
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_get_request_on_non_existent_channel_url_response_is_json(self):
+        resp = self.app.get(self.invalid_channel_url, headers=self.headers, status=403)
+        assert resp.body == '{}'
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_post_request_to_non_existent_channel_response_is_json(self):
+        resp = self.app.post(self.invalid_channel_url, headers=self.headers, status=202)
+        assert resp.body == '{}'
+        assert resp.headers['Content-Type'] == 'application/json'
+
+    def test_post_request_to_invalid_channel_response_is_json(self):
+        resp = self.app.post(self.invalid_channel_registration_url,
+                              headers=self.headers,
+                              status=405)
+        assert json.loads(resp.body)
         assert resp.headers['Content-Type'] == 'application/json'
