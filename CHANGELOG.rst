@@ -3,8 +3,8 @@ Changelog
 
 This document describes changes between each past release.
 
-0.1 (unreleased)
-----------------
+0.1.0 (2017-02-22)
+------------------
 
 Protocol is now version 0.1. See `API changelog`_.
 
