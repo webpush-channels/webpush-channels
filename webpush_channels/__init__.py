@@ -40,7 +40,7 @@ def main(global_config, config=None, **settings):
     if not config:
         config = Configurator(settings=settings)
 
-    config.add_settings({'kinto.project_name': 'webpush-channels'})
+    config.add_settings({'project_name': 'webpush-channels'})
 
     kinto.core.initialize(config,
                           version=__version__,
