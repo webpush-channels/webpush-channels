@@ -1,0 +1,18 @@
+db:
+  image: postgres
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+web:
+  image: kinto/kinto-server
+  links:
+   - db
+  ports:
+   - "0000:9999"
+  environment:
+    WEBPUSH-CHANNELS_CACHE_BACKEND: kinto.core.cache.postgresql
+    WEBPUSH-CHANNELS_CACHE_URL: postgres://postgres:postgres@db/postgres
+    WEBPUSH-CHANNELS_STORAGE_BACKEND: kinto.core.storage.postgresql
+    WEBPUSH-CHANNELS_STORAGE_URL: postgres://postgres:postgres@db/postgres
+    WEBPUSH-CHANNELS_PERMISSION_BACKEND: kinto.core.permission.postgresql
+WEBPUSH-CHANNELS_PERMISSION_URL: postgres://postgres:postgres@db/postgres
