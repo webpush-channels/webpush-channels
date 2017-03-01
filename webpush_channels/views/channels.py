@@ -48,8 +48,10 @@ def send_push_notifications(request):
         subscriptions += user_subscriptions
 
     for subscription in subscriptions:
-        del subscription['id']
-        del subscription['last_modified']
+        # Remove the subscription id if present.
+        subscription.pop('id', None)
+        # Remove the subscription last_modified value if present.
+        subscription.pop('last_modified')
         data = request.validated.get('data')
         if data:
             data = canonical_json(data)
