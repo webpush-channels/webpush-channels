@@ -1,3 +1,10 @@
+.. _run-webpush-channels-mozilla-demo:
+
+Mozilla demo server
+===================
+
+A webpush-channels instance is running at https://webpush-channels.dev.mozaws.net/v0/
+
 .. _run-webpush-channels-python:
 
 Using the Python package
