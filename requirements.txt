@@ -37,7 +37,7 @@ python-dateutil==2.6.0
 python-jose==1.3.2
 pywebpush==0.7.0
 repoze.lru==0.6
-requests==2.12.5
+requests==2.20.0
 ruamel.ordereddict==0.4.9
 ruamel.yaml==0.13.14
 simplejson==3.10.0
