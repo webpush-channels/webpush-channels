@@ -6,8 +6,8 @@ WebPush Channel Broadcast Documentation
    :caption: Contents:
 
    overview
+   tutorials/index
    api/index
-
 
 Indices and tables
 ==================
